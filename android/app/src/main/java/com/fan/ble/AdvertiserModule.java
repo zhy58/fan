@@ -31,6 +31,7 @@ import com.facebook.react.uimanager.IllegalViewOperationException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -53,7 +54,7 @@ public class AdvertiserModule extends ReactContextBaseJavaModule {
   private static AdvertiseSettings myAdvertiseSettings;
   private static AdvertiseData myAdvertiseData;
   private static final int ENABLE_BLUETOOTH = 1234;
-  public static String ID = "";
+  public static String ID = "cc cc cc cc cc";
   public static boolean off = false;
   static AdvertiseCallback myAdvertiseCallback = new AdvertiseCallback() {
     @Override
@@ -132,15 +133,10 @@ public class AdvertiserModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void send(String order, Promise promise){
-
+  public void send(int order, String address, Promise promise){
     try {
       WritableMap map = Arguments.createMap();
-      order = order.toLowerCase();
-      if(ID.isEmpty() && order.isEmpty()){
-        map.putInt("status", -1);
-      }
-      else if(!bluetoothAdapter.isEnabled()){
+      if(!bluetoothAdapter.isEnabled()){
         map.putInt("status", 1);
       }
       else if(!myAdapter.isMultipleAdvertisementSupported()){
@@ -148,14 +144,14 @@ public class AdvertiserModule extends ReactContextBaseJavaModule {
       }
       else{
         if(!off){//关机
-          if (order.equals("a0") || order.equals("a1") || order.equals("b4") || order.equals("b5")) {
-            Boolean bool = sendOrder(ID, order);
+          if (order == 0 || order == 1 || order == 14 || order == 15) {
+            Boolean bool = sendOrder(ID, order, address);
             map.putInt("status", bool ? 0 : 3);
           }else{
             map.putInt("status", 4);
           }
         }else{
-          Boolean bool = sendOrder(ID, order);
+          Boolean bool = sendOrder(ID, order, address);
           map.putInt("status", bool ? 0 : 3);
         }
       }
@@ -182,7 +178,7 @@ public class AdvertiserModule extends ReactContextBaseJavaModule {
   @ReactMethod
   public void delete(String id, Promise promise){
     WritableMap map = Arguments.createMap();
-    if (sendOrder(id,"b5")){
+    if (sendOrder(ID,15, "")){
       db.delete("aifan","deviceid = ?", new String[]{id});
       map.putInt("status", 0);
     }else{
@@ -215,7 +211,6 @@ public class AdvertiserModule extends ReactContextBaseJavaModule {
       try {
         if (aiFanConfig != null) {
           JSONObject object = new JSONObject(aiFanConfig);
-          ID = "cc cc cc cc cc";
           map.putString("id", object.getString("id"));
           Cursor cursor = db.query ("aifan", new String[]{"name"},"deviceid = ?", new String[]{object.getString("id")},null,null,null);
           if (cursor.getCount() == 1)
@@ -328,7 +323,7 @@ public class AdvertiserModule extends ReactContextBaseJavaModule {
               return 0;
             }
           }
-          if (!sendOrder(id,"b4"))
+          if (!sendOrder(ID,14, id))
             return 1;
           values.put("deviceid", id);
           values.put("name", name);
@@ -350,7 +345,17 @@ public class AdvertiserModule extends ReactContextBaseJavaModule {
   }
 
   //发送指令
-  public static boolean sendOrder(String addr, String order){
+  public static boolean sendOrder(String addr, int order, String deviceid){
+    if(order == 15){
+      deviceid = "CC CC CC CC ";
+    }
+    else{
+      if(deviceid.length() != 4){
+        return false;
+      }
+      deviceid = deviceid.replaceAll(".{1}", "0$0 ");
+    }
+
     //设备地址处理
     addr = addr.replace(" ", "");
     addr = addr.toLowerCase();
@@ -361,17 +366,78 @@ public class AdvertiserModule extends ReactContextBaseJavaModule {
     }
 
     //设备控制指令处理
-    order = order.replace(" ", "");
-    order = order.toLowerCase();
-
-    if (order.length() < 2) {
-      return false;
+    //String rawPayload = "";
+    String rawPayload = "AA 66 ";
+    switch (order) {
+      case 0:
+        rawPayload = rawPayload + "A0";
+        break;
+      case 1:
+        rawPayload = rawPayload + "A1";
+        break;
+      case 2:
+        rawPayload = rawPayload + "A2";
+        break;
+      case 3:
+        rawPayload = rawPayload + "A3";
+        break;
+      case 4:
+        rawPayload = rawPayload + "A4";
+        break;
+      case 5:
+        rawPayload = rawPayload + "A5";
+        break;
+      case 6:
+        rawPayload = rawPayload + "A6";
+        break;
+      case 7:
+        rawPayload = rawPayload + "A7";
+        break;
+      case 8:
+        rawPayload = rawPayload + "A8";
+        break;
+      case 9:
+        rawPayload = rawPayload + "A9";
+        break;
+      case 10:
+        rawPayload = rawPayload + "B0";
+        break;
+      case 11:
+        rawPayload = rawPayload + "B1";
+        break;
+      case 12:
+        rawPayload = rawPayload + "B2";
+        break;
+      case 13:
+        rawPayload = rawPayload + "B3";
+        break;
+      case 14:
+        rawPayload = rawPayload + "B4";
+        break;
+      case 15:
+        rawPayload = rawPayload + "B5";
+        break;
     }
+    rawPayload = rawPayload + deviceid;
 
-    byte[] payload = new byte[order.length()/2];
+    rawPayload = rawPayload.replace(" ", "");
+    rawPayload = rawPayload.toLowerCase();
+    String hexStr = Utils.makeChecksum(rawPayload);
+    //Integer.valueOf(hexStr, 16)
+    int numb = (Integer.parseInt(hexStr, 16) & 255);
+    String hex= Integer.toHexString(numb);
+    rawPayload = rawPayload + hex.toLowerCase();
+
+    byte[] payload = new byte[rawPayload.length()/2];
     for (int i = 0; i < payload.length; ++i) {
-      payload[i] = Utils.strToByte(order.substring(i*2, (i+1)*2));
+      payload[i] = Utils.strToByte(rawPayload.substring(i*2, (i+1)*2));
     }
+
+    Log.d("zhy deviceid", ""+deviceid);
+    Log.d("zhy hexStr", hexStr);
+    Log.d("zhy hex", ""+hex);
+    Log.d("zhy rawPayload", rawPayload);
+    Log.d("zhy", Arrays.toString(payload));
 
     final byte[] calculatedPayload = new byte[address.length+payload.length+5];
     BLEUtil.get_rf_payload(address, address.length, payload, payload.length, calculatedPayload);
@@ -387,10 +453,10 @@ public class AdvertiserModule extends ReactContextBaseJavaModule {
         myAdvertiser.stopAdvertising(myAdvertiseCallback);
       }
     };
-    timer.schedule(task, 500);
-    if(order.equals("a0")){
+    timer.schedule(task, 200);
+    if(order == 0){
       off = true;
-    }else if(order.equals("a1")){
+    }else if(order == 1){
       off = false;
     }
     return true;

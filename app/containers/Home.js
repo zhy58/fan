@@ -3,12 +3,12 @@ import { StyleSheet, View, FlatList, Platform, PermissionsAndroid, Dimensions } 
 import { connect } from 'react-redux'
 import I18n from 'i18n-js'
 import Modal from 'react-native-modal'
+import LottieView from 'lottie-react-native'
 
 import { IconButton, ImageButton, CtrlList, CtrlTitle, Image, ScrollView, Touchable, Text } from '../components'
 import BLE from '../native'
 import { NavigationActions, createAction, Toast } from '../utils'
 import { Instructions } from '../utils/config'
-import { requestCameraPermission } from '../utils/permissions'
 import tool from './style/style'
 
 const { width, height } = Dimensions.get("window");
@@ -17,9 +17,11 @@ const { width, height } = Dimensions.get("window");
 class Home extends Component {
   constructor(props) {
     super(props);
+    this.animation = null;
     this.powerOnColor = "rgb(0,153,68)";
     this.powerOffColor = "rgb(230,0,18)";
     this.state = {
+      speed: 0,
       isVisible: false,
       power: Instructions.powerOff,
     }
@@ -29,7 +31,7 @@ class Home extends Component {
     this.initBle();
   }
   judgeDevice = _ => {
-    if(this.props.currentDevice && this.props.currentDevice.name){
+    if(this.props.currentDevice && this.props.currentDevice.name && this.props.currentDevice.id){
       return true;
     }
     Toast(I18n.t("selectDeviceTip"));
@@ -38,13 +40,21 @@ class Home extends Component {
   power = _ => {
     if(this.judgeDevice()){
       const power = this.state.power === Instructions.powerOff ? Instructions.powerOn : Instructions.powerOff;
-      this.setState({power});
-      BLE.send(power);
+      BLE.send(power, this.props.currentDevice.id).then(({status}) => {
+        console.log("status: ", status);
+        if(status == 0){
+          let speed = 0;
+          if(power == Instructions.powerOn){
+            speed = 1;
+          }
+          this.setState({ speed, power });
+        }
+      });
     }
   }
   sendOrder(order) {
     if(this.judgeDevice()){
-      BLE.send(order).then(res => {
+      BLE.send(order, this.props.currentDevice.id).then(res => {
         if(res.status == 4){
           Toast(I18n.t("openDeviceTip"));
         }
@@ -95,9 +105,19 @@ class Home extends Component {
               tonPress={_=>{this.sendOrder(Instructions.gearPlus)}}
               bonPress={_=>{this.sendOrder(Instructions.gearMinus)}}
               source={require('../images/amount.png')} />
-            <View style={[styles.box, tool.flexCenter]}>
+            
+            {/* <View style={[styles.box, tool.flexCenter]}>
               <Image source={require('../images/in.png')} style={styles.moving} />
+            </View> */}
+            <View style={styles.fan}>
+              <LottieView ref={animation => { this.animation = animation }}
+                speed={this.state.speed}
+                autoPlay
+                style={styles.box}
+                source={require('./json/in.json')}
+              />
             </View>
+
             <CtrlList tname={"ios-arrow-up"} bname={"ios-arrow-down"} 
               tonPress={_=>{this.sendOrder(Instructions.timePlus)}}
               bonPress={_=>{this.sendOrder(Instructions.timeMinus)}}
@@ -161,8 +181,13 @@ const styles = StyleSheet.create({
   iconBtnCir: {
     borderRadius: 25,
   },
-  box: {
+  fan: {
+    paddingTop: 40,
     height: 198,
+  },
+  box: {
+    height: 158,
+    // backgroundColor: "#ccc"
   },
   moving: {
     width: 90,

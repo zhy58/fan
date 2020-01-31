@@ -140,6 +140,10 @@ android {
           signingConfig signingConfigs.release
         }
     }
+    compileOptions {
+      sourceCompatibility JavaVersion.VERSION_1_8
+      targetCompatibility JavaVersion.VERSION_1_8
+    }
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
@@ -156,6 +160,7 @@ android {
 }
 
 dependencies {
+  implementation project(':lottie-react-native')
   implementation project(':react-native-vector-icons')
   implementation project(':react-native-localize')
   implementation fileTree(include: ['*.jar'], dir: 'libs')

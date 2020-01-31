@@ -8,8 +8,8 @@ export default class BLE {
         return BLEAdvertiser.initBLE();
     }
     //发送广播指令
-    static send(order){
-        return BLEAdvertiser.send(order);
+    static send(order, id){
+        return BLEAdvertiser.send(order, id);
     }
     // 广播支持
     static isSupport(){

@@ -1,24 +1,26 @@
+// 设备控制指令
 const Instructions = {
-    powerOn: "a0",//开
-    powerOff: "a1",//关
-    gearPlus: "a2",//档位+
-    gearMinus: "a3",//档位-
-    timePlus: "a4",//定时+
-    timeMinus: "a5",//定时-
-    upDown: "a6",//上下
-    leftRight: "a7",//左右
-    threeD: "a8",//3d
-    cancel: "a9",//取消
-    sleepWind: "b0",//睡眠
-    naturalWind: "b1",//自然
-    normalWind: "b2",//正常
-    intelligentWind: "b3",//智能
-    add: "b4",//添加设备
-    delete: "b5",//清除设备
+    powerOn: 0,//开
+    powerOff: 1,//关
+    gearPlus: 2,//档位+
+    gearMinus: 3,//档位-
+    timePlus: 4,//定时+
+    timeMinus: 5,//定时-
+    upDown: 6,//上下
+    leftRight: 7,//左右
+    threeD: 8,//3d
+    cancel: 9,//取消
+    sleepWind: 10,//睡眠
+    naturalWind: 11,//自然
+    normalWind: 12,//正常
+    intelligentWind: 13,//智能
+    add: 14,//添加设备
+    delete: 15,//清除设备
 };
 
+// 用户设定默认语言
 const StorageKey = {
-    language: "LANGUAGE", //用户设定默认语言
+    language: "LANGUAGE", 
 }
 
 module.exports = {
