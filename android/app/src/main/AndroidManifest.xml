@@ -14,13 +14,13 @@
     <uses-feature android:name="android.hardware.bluetooth_le" android:required="true"/>
 
     <application
-      android:name=".MainApplication"
+      android:name="com.zhy.fan.MainApplication"
       android:label="@string/app_name"
       android:icon="@mipmap/ic_launcher"
       android:allowBackup="false"
       android:theme="@style/AppTheme">
       <activity
-        android:name=".MainActivity"
+        android:name="com.zhy.fan.MainActivity"
         android:label="@string/app_name"
         android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
         android:windowSoftInputMode="adjustResize">

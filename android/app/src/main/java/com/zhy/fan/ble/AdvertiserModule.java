@@ -1,4 +1,4 @@
-package com.fan.ble;
+package com.zhy.fan.ble;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -31,7 +31,6 @@ import com.facebook.react.uimanager.IllegalViewOperationException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;

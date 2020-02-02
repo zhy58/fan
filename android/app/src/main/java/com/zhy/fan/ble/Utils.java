@@ -1,7 +1,6 @@
-package com.fan.ble;
+package com.zhy.fan.ble;
 
 import android.app.Activity;
-import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

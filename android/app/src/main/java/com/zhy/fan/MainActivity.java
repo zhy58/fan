@@ -1,4 +1,4 @@
-package com.fan;
+package com.zhy.fan;
 
 import com.facebook.react.ReactActivity;
 
