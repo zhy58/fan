@@ -28,7 +28,9 @@ class Home extends Component {
   }
 
   componentWillMount() {
-    this.initBle();
+    if(Platform.OS == "android"){
+        this.initBle();
+    }
   }
   judgeDevice = _ => {
     if(this.props.currentDevice && this.props.currentDevice.name && this.props.currentDevice.id){
