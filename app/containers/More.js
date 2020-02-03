@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, Dimensions } from 'react-native'
 import { connect } from 'react-redux'
 import I18n from 'i18n-js'
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -19,7 +19,6 @@ class More extends Component {
       deviceID: "",
     }
   }
-  componentWillMount() {}
   render() {
     return (
       <View style={tool.container}>
@@ -31,7 +30,7 @@ class More extends Component {
             </View>
           </Touchable>
           <Touchable onPress={this.add} style={styles.add}>
-            <Text style={styles.text}>{I18n.t("add")}</Text>
+              <Text style={styles.text}>{I18n.t("add")}</Text>
           </Touchable>
         </View>
         
@@ -89,11 +88,11 @@ class More extends Component {
       this.closeModal();
     }
   }
-
 }
 
 const styles = StyleSheet.create({
   header: {
+      height: 60,
     paddingHorizontal: 20,
     paddingVertical: 5,
   },

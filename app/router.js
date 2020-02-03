@@ -21,6 +21,7 @@ const AppNavigator = createStackNavigator(
     Home: { screen: Home },
     More: { screen: More },
     Language: { screen: Language },
+    Loading: { screen: Loading },
   },
   {
     headerMode: 'none',

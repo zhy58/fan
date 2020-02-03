@@ -23,4 +23,11 @@ export default {
     "enterDeviceName": "请输入设备名称",
     "selectDeviceTip": "请先选择设备",
     "openDeviceTip": "请先开启设备",
+    "next": "下一步",
+    "skip": "跳过",
+    "finish": "完成",
+    "previous": "上一步",
+    "step1": "首先要添加设备，进入设备添加页添加",
+    "step2": "成功添加设备后，唤醒弹窗选中设备即可控制",
+    "step3": "开启设备开关"
 };

@@ -23,4 +23,11 @@ export default {
     "enterDeviceName": "Please enter the device name",
     "selectDeviceTip": "Please select the device first",
     "openDeviceTip": "Please turn on the device first",
+    "next": "Next",
+    "skip": "Skip",
+    "finish": "Finish",
+    "previous": "Previous",
+    "step1": "First, add the device. Go to the add device page",
+    "step2": "After adding the device successfully, wake up the pop-up window and select the device to control",
+    "step3": "Tutn on device switch"
 };

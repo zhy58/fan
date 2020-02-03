@@ -1,22 +1,27 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, FlatList, Platform, PermissionsAndroid, Dimensions } from 'react-native'
+import { StyleSheet, View, FlatList, Platform, Dimensions } from 'react-native'
 import { connect } from 'react-redux'
 import I18n from 'i18n-js'
 import Modal from 'react-native-modal'
 import LottieView from 'lottie-react-native'
+import { copilot, walkthroughable, CopilotStep } from 'react-native-copilot'
 
 import { IconButton, ImageButton, CtrlList, CtrlTitle, Image, ScrollView, Touchable, Text } from '../components'
 import BLE from '../native'
-import { NavigationActions, createAction, Toast } from '../utils'
-import { Instructions } from '../utils/config'
+import { Storage, NavigationActions, createAction, Toast } from '../utils'
+import { Instructions, StorageKey } from '../utils/config'
 import tool from './style/style'
 
+const WalkthroughableText = walkthroughable(View);
 const { width, height } = Dimensions.get("window");
 
 @connect(({ app }) => ({ ...app }))
 class Home extends Component {
   constructor(props) {
     super(props);
+    this.step1 = I18n.t("step1");
+    this.step2 = I18n.t("step2");
+    this.step3 = I18n.t("step3");
     this.animation = null;
     this.powerOnColor = "rgb(0,153,68)";
     this.powerOffColor = "rgb(230,0,18)";
@@ -26,11 +31,27 @@ class Home extends Component {
       power: Instructions.powerOff,
     }
   }
-
   componentWillMount() {
     if(Platform.OS == "android"){
         this.initBle();
     }
+  }
+  componentDidMount() {
+    Storage.get(StorageKey.startUpHome).then(res => {
+        console.log("res: ", res);
+        if(!res){
+            this.props.copilotEvents.on('stop', this.handleStop);
+            this.props.start();
+        }
+    }).catch(err => {
+        console.log("get StorageKey.startUpHome err: ", err);
+    });
+  }
+  componentWillUnmount() {
+    this.props.copilotEvents.off('stop');
+  }
+  handleStop = () => {
+    Storage.set(StorageKey.startUpHome, true);
   }
   judgeDevice = _ => {
     if(this.props.currentDevice && this.props.currentDevice.name && this.props.currentDevice.id){
@@ -99,9 +120,14 @@ class Home extends Component {
     return (
       <View style={tool.container}>
         <ScrollView contentContainerStyle={tool.paddingH30}>
-          <View style={[tool.flexCenter, tool.marginT30]}>
-            <IconButton onPress={this.power} style={styles.iconBtnCir} name="ios-power" color={powerColor} />
-          </View>
+            <View style={[tool.flexCenter, tool.marginT30]}>
+            <CopilotStep text={this.step3} order={3} name="step3">
+                <WalkthroughableText>
+                    <IconButton onPress={this.power} style={styles.iconBtnCir} name="ios-power" color={powerColor} />
+                </WalkthroughableText>
+            </CopilotStep>
+            </View>
+          
           <View style={[tool.flexBetween, styles.marginT15]}>
             <CtrlList tname={"md-add"} bname={"md-remove"} 
               tonPress={_=>{this.sendOrder(Instructions.gearPlus)}}
@@ -149,10 +175,19 @@ class Home extends Component {
         {/* 语言，设备切换，设备添加 */}
         <View style={[styles.bar, tool.flexBetween]}>
           <IconButton onPress={this.goLanguage} type={"Octicons"} name={"globe"} style={styles.icon} />
-          <Touchable style={[styles.select, tool.flexCenter]} onPress={this.select}>
-            <Text style={tool.weight}>{dev.name}</Text>
-          </Touchable>
-          <IconButton onPress={this.goMore} type={"Octicons"} name={"gear"} style={styles.icon} />
+          <CopilotStep text={this.step2} order={2} name="step2">
+            <WalkthroughableText>
+            <Touchable style={[styles.select, tool.flexCenter]} onPress={this.select}>
+                <Text style={tool.weight}>{dev.name}</Text>
+            </Touchable>
+            </WalkthroughableText>
+          </CopilotStep>
+
+          <CopilotStep text={this.step1} order={1} name="step1">
+            <WalkthroughableText>
+            <IconButton onPress={this.goMore} type={"Octicons"} name={"gear"} style={styles.icon} />
+            </WalkthroughableText>
+          </CopilotStep>
         </View>
 
         <Modal isVisible={this.state.isVisible} 
@@ -189,7 +224,6 @@ const styles = StyleSheet.create({
   },
   box: {
     height: 158,
-    // backgroundColor: "#ccc"
   },
   moving: {
     width: 90,
@@ -234,4 +268,8 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Home
+export default copilot({
+    verticalOffset: 23,
+    animated: true,
+    overlay: 'svg',
+})(Home)

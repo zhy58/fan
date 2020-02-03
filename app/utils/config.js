@@ -21,6 +21,7 @@ const Instructions = {
 // 用户设定默认语言
 const StorageKey = {
     language: "LANGUAGE", 
+    startUpHome: "STARTUPHOME",
 }
 
 module.exports = {

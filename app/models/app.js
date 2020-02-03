@@ -1,7 +1,8 @@
-import { createAction, NavigationActions, Storage, setLanguage } from '../utils'
+import { createAction, NavigationActions, StackActions, Storage, setLanguage } from '../utils'
 import * as authService from '../services/auth'
-import { StorageKey } from '../utils/config'
+import { StorageKey, Labels } from '../utils/config'
 
+import I18n from 'i18n-js'
 import * as RNLocalize from "react-native-localize"
 import translate from '../translate'
 import BLE from '../native'

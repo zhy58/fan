@@ -23,4 +23,11 @@ export default {
     "enterDeviceName": "장치 이름을 입력하십시오",
     "selectDeviceTip": "우선 장치 선택",
     "openDeviceTip": "우선 설비를 열어 주십시오",
+    "next": "다음 단계",
+    "skip": "건너뛰다",
+    "finish": "완성",
+    "previous": "전보",
+    "step1": "우선 설비를 첨가하고 장치 추가 페이지 추가",
+    "step2": "장치를 성공적으로 첨가하면 탄창 선택 장치를 깨우면 제어할 수 있다",
+    "step3": "장치 스위치"
 };
