@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Dimensions } from 'react-native'
+import { StyleSheet, View, Platform } from 'react-native'
 import { connect } from 'react-redux'
 import I18n from 'i18n-js'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import { FlatList, Text, Touchable, ButtonList, Modal, TextInput } from '../components'
 import tool from './style/style'
-import { NavigationActions, createAction } from '../utils'
+import { NavigationActions, createAction, Toast } from '../utils'
 import BLE from '../native'
 
 @connect(({ app }) => ({ ...app }))
@@ -82,6 +82,7 @@ class More extends Component {
         // console.log("devices: ", devices);
         if(status == 0){
           //设备存在
+          Toast(I18n.t("sameDevice"));
         }
         this.props.dispatch(createAction("app/updateState")({ devices }));
       });
@@ -92,7 +93,10 @@ class More extends Component {
 
 const styles = StyleSheet.create({
   header: {
-      height: 60,
+    marginTop: Platform.select({
+        ios: 20,
+        android: 0
+    }),
     paddingHorizontal: 20,
     paddingVertical: 5,
   },

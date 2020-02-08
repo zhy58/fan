@@ -7,6 +7,4 @@ target 'fan' do
 
   # Pods for fan
 
-  pod 'RNSVG', :path => '../node_modules/react-native-svg'
-
 end

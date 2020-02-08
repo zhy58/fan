@@ -29,5 +29,6 @@ export default {
     "previous": "Previous",
     "step1": "First, add the device. Go to the add device page",
     "step2": "After adding the device successfully, wake up the pop-up window and select the device to control",
-    "step3": "Tutn on device switch"
+    "step3": "Tutn on device switch",
+    "sameDevice": "Failed to add the same device name or code",
 };

@@ -32,13 +32,11 @@ class Home extends Component {
     }
   }
   componentWillMount() {
-    if(Platform.OS == "android"){
-        this.initBle();
-    }
+    this.initBle();
   }
   componentDidMount() {
     Storage.get(StorageKey.startUpHome).then(res => {
-        console.log("res: ", res);
+        // console.log("res: ", res);
         if(!res){
             this.props.copilotEvents.on('stop', this.handleStop);
             this.props.start();
@@ -64,13 +62,20 @@ class Home extends Component {
     if(this.judgeDevice()){
       const power = this.state.power === Instructions.powerOff ? Instructions.powerOn : Instructions.powerOff;
       BLE.send(power, this.props.currentDevice.id).then(({status}) => {
-        console.log("status: ", status);
+        // console.log("status: ", status);
         if(status == 0){
           let speed = 0;
           if(power == Instructions.powerOn){
             speed = 1;
           }
           this.setState({ speed, power });
+          if(Platform.OS == "ios"){
+            if(speed > 0){
+                this.animation.play();
+            }else{
+                this.animation.reset();
+            }
+          }
         }
       });
     }
@@ -102,6 +107,7 @@ class Home extends Component {
     this.closeModal();
     this.props.dispatch(createAction("app/updateState")({ currentDevice }));
     BLE.choose(currentDevice.id, currentDevice.name).then(res => {
+        console.log("res: ", res);
       this.props.dispatch(createAction("app/currentDevice")());
     }).catch(err => {
       console.log("err: ", err);
@@ -121,11 +127,11 @@ class Home extends Component {
       <View style={tool.container}>
         <ScrollView contentContainerStyle={tool.paddingH30}>
             <View style={[tool.flexCenter, tool.marginT30]}>
-            <CopilotStep text={this.step3} order={3} name="step3">
-                <WalkthroughableText>
-                    <IconButton onPress={this.power} style={styles.iconBtnCir} name="ios-power" color={powerColor} />
-                </WalkthroughableText>
-            </CopilotStep>
+                <CopilotStep text={this.step3} order={3} name="step3">
+                    <WalkthroughableText>
+                        <IconButton onPress={this.power} style={styles.iconBtnCir} name="ios-power" color={powerColor} />
+                    </WalkthroughableText>
+                </CopilotStep>
             </View>
           
           <View style={[tool.flexBetween, styles.marginT15]}>
@@ -133,22 +139,23 @@ class Home extends Component {
               tonPress={_=>{this.sendOrder(Instructions.gearPlus)}}
               bonPress={_=>{this.sendOrder(Instructions.gearMinus)}}
               source={require('../images/amount.png')} />
-            
             {/* <View style={[styles.box, tool.flexCenter]}>
-              <Image source={require('../images/in.png')} style={styles.moving} />
+                <Image source={require('../images/in.png')} style={styles.moving} />
             </View> */}
             <View style={styles.fan}>
-              <LottieView ref={animation => { this.animation = animation }}
-                speed={this.state.speed}
-                autoPlay
-                style={styles.box}
-                source={require('./json/in.json')}
-              />
+                <LottieView ref={animation => { this.animation = animation }}
+                    speed={this.state.speed}
+                    autoPlay={true}
+                    style={styles.box}
+                    source={require('./json/in.json')}
+                />
             </View>
+            
 
             <CtrlList tname={"ios-arrow-up"} bname={"ios-arrow-down"} 
               tonPress={_=>{this.sendOrder(Instructions.timePlus)}}
               bonPress={_=>{this.sendOrder(Instructions.timeMinus)}}
+              imgSty={{height: 32}}
               source={require('../images/timer.png')} />
           </View>
           {/* 循环 */}
@@ -269,7 +276,7 @@ const styles = StyleSheet.create({
 })
 
 export default copilot({
-    verticalOffset: 23,
+    verticalOffset: Platform.OS == "android" ? 23 : 0,
     animated: true,
     overlay: 'svg',
 })(Home)

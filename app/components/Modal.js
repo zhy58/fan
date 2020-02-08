@@ -8,6 +8,7 @@ const _Modal = ({style, maskStyle, children, onBackButtonPress, ...rest}) =>
 {
   return (
     <Modal style={[styles.modal, style]}
+      avoidKeyboard={true}
       swipeDirection={['down']}
       onSwipeComplete={onBackButtonPress}
       onBackButtonPress={onBackButtonPress}

@@ -4,11 +4,11 @@ import { StyleSheet, View } from 'react-native'
 import Image from './Image'
 import IconButton from './IconButton'
 
-export const CtrlList = ({ tonPress, bonPress, source, tname, bname, color = "#727272", size = 30 }) => (
+export const CtrlList = ({ tonPress, bonPress, source, tname, bname, imgSty, color = "#727272", size = 30 }) => (
     <View style={styles.box}>
         <IconButton onPress={tonPress} style={styles.list} name={tname} color={color} size={size} />
         <View style={styles.list}>
-            <Image source={source} style={styles.img} />
+            <Image source={source} style={[styles.img, imgSty]} />
         </View>
         <IconButton onPress={bonPress} style={styles.list} name={bname} color={color} size={size} />
     </View>

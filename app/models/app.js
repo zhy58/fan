@@ -43,11 +43,12 @@ export default {
     },
     *getDevices({ payload }, { call, put }) {
       const devices = yield call(BLE.getDevices);
+    //   console.log("getDevices: ", devices);
       yield put(createAction("updateState")({ devices }));
     },
     *currentDevice({ payload }, { call, put }) {
       const currentDevice = yield call(BLE.currentDevice);
-      // console.log("currentDevice: ", currentDevice);
+    //   console.log("currentDevice: ", currentDevice);
       yield put(createAction("updateState")({ currentDevice }));
     },
   },
