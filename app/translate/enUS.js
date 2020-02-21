@@ -1,4 +1,5 @@
 export default {
+    "language": "language",
     "zhCN": "Simplified chinese",
     "zhTW": "Fan'ti chinese",
     "enUS": "English",
@@ -14,6 +15,7 @@ export default {
     "natural": "natural",
     "normal": "normal",
     "eco": "ECO",
+    "device": "device",
     "addDevice": "Add device",
     "add": "Add",
     "rename": "RENAME",
@@ -31,4 +33,5 @@ export default {
     "step2": "After adding the device successfully, wake up the pop-up window and select the device to control",
     "step3": "Tutn on device switch",
     "sameDevice": "Failed to add the same device name or code",
+    "selectDevice": "Select device"
 };

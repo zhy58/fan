@@ -1,4 +1,5 @@
 export default {
+    "language": "语言",
     "zhCN": "中文简体",
     "zhTW": "中文繁体",
     "enUS": "英语",
@@ -14,6 +15,7 @@ export default {
     "natural": "自然风",
     "normal": "正常风",
     "eco": "智能风",
+    "device": "设备",
     "addDevice": "添加设备",
     "add": "添加",
     "rename": "改名",
@@ -31,4 +33,5 @@ export default {
     "step2": "成功添加设备后，唤醒弹窗选中设备即可控制",
     "step3": "开启设备开关",
     "sameDevice": "设备名或设备编码相同，新增失败",
+    "selectDevice": "选择设备"
 };

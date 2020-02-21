@@ -1,4 +1,5 @@
 export default {
+    "language": "언어",
     "zhCN": "중국어",
     "zhTW": "중국어 번체",
     "enUS": "영어",
@@ -14,6 +15,7 @@ export default {
     "natural": "자연풍",
     "normal": "정상풍",
     "eco": "지능풍",
+    "device": "설비",
     "addDevice": "장치 추가",
     "add": "추가",
     "rename": "개명",
@@ -31,4 +33,5 @@ export default {
     "step2": "장치를 성공적으로 첨가하면 탄창 선택 장치를 깨우면 제어할 수 있다",
     "step3": "장치 스위치",
     "sameDevice": "장치 이름이나 장치 인코딩이 같거나 새로 증가할 수 없습니다",
+    "selectDevice": "장치 선택"
 };

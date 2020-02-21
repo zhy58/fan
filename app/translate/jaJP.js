@@ -1,4 +1,5 @@
 export default {
+    "language": "言語",
     "zhCN": "簡体中国語",
     "zhTW": "繁体中国語",
     "enUS": "英語",
@@ -14,6 +15,7 @@ export default {
     "natural": "自然の風",
     "normal": "普通の風",
     "eco": "スマートフォン",
+    "device": "デバイス",
     "addDevice": "デバイスを追加",
     "add": "追加",
     "rename": "名を変える",
@@ -31,4 +33,5 @@ export default {
     "step2": "デバイスの追加に成功したら、ウィンドウ選択デバイスを起動してコントロールできます。",
     "step3": "デバイススイッチをオンにする",
     "sameDevice": "デバイス名またはデバイスコードが同じで、追加に失敗しました。",
+    "selectDevice": "デバイスを選択"
 };

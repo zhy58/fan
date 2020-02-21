@@ -32,7 +32,7 @@ class Home extends Component {
     }
   }
   componentWillMount() {
-    this.initBle();
+    // this.initBle();
   }
   componentDidMount() {
     Storage.get(StorageKey.startUpHome).then(res => {
@@ -122,6 +122,7 @@ class Home extends Component {
 
   render() {
     let dev = this.props.currentDevice || {};
+    const selectDeviceName = dev.name ? dev.name : I18n.t("selectDevice");
     let powerColor = this.state.power === Instructions.powerOn ? this.powerOnColor : this.powerOffColor;
     return (
       <View style={tool.container}>
@@ -151,7 +152,6 @@ class Home extends Component {
                 />
             </View>
             
-
             <CtrlList tname={"ios-arrow-up"} bname={"ios-arrow-down"} 
               tonPress={_=>{this.sendOrder(Instructions.timePlus)}}
               bonPress={_=>{this.sendOrder(Instructions.timeMinus)}}
@@ -181,18 +181,23 @@ class Home extends Component {
         </ScrollView>
         {/* 语言，设备切换，设备添加 */}
         <View style={[styles.bar, tool.flexBetween]}>
-          <IconButton onPress={this.goLanguage} type={"Octicons"} name={"globe"} style={styles.icon} />
+          <View style={tool.flexCenter}>
+            <IconButton size={24} onPress={this.goLanguage} type={"Octicons"} name={"globe"} style={styles.icon} />
+            <Text style={styles.font12}>{I18n.t("language")}</Text>
+          </View>
           <CopilotStep text={this.step2} order={2} name="step2">
             <WalkthroughableText>
             <Touchable style={[styles.select, tool.flexCenter]} onPress={this.select}>
-                <Text style={tool.weight}>{dev.name}</Text>
+                <Text style={tool.weight}>{ selectDeviceName }</Text>
             </Touchable>
             </WalkthroughableText>
           </CopilotStep>
-
           <CopilotStep text={this.step1} order={1} name="step1">
             <WalkthroughableText>
-            <IconButton onPress={this.goMore} type={"Octicons"} name={"gear"} style={styles.icon} />
+            <View style={tool.flexCenter}>
+                <IconButton size={24} onPress={this.goMore} type={"Octicons"} name={"gear"} style={styles.icon} />
+                <Text style={styles.font12}>{I18n.t("device")}</Text>
+            </View>
             </WalkthroughableText>
           </CopilotStep>
         </View>
@@ -237,14 +242,14 @@ const styles = StyleSheet.create({
     height: 90,
   },
   bar: {
-    paddingHorizontal: 30,
+    paddingHorizontal: 10,
     height: 50,
     justifyContent: "center",
     overflow: "hidden",
   },
   icon: {
-    width: 50,
-    height: 50,
+    width: 30,
+    height: 30,
     backgroundColor: "transparent",
   },
   marginT15: {
@@ -255,8 +260,8 @@ const styles = StyleSheet.create({
     margin: 0
   },
   select: {
-    width: 120,
-    height: 40
+    width: 130,
+    height: 30
   },
   selectList: {
     paddingVertical: 8,
@@ -266,6 +271,12 @@ const styles = StyleSheet.create({
     color: "#333",
     fontWeight: "500",
     textAlign: "center"
+  },
+  font12: {
+    fontSize: 12,
+    color: "#333",
+    textAlign: "center",
+    width: 90,
   },
   mask: {
     height: 200,

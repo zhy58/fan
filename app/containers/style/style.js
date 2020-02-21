@@ -43,4 +43,5 @@ export default StyleSheet.create({
     weight: {
         fontWeight: "500",
     },
+
 })
