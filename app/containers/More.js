@@ -88,7 +88,27 @@ class More extends Component {
     this.props.dispatch(NavigationActions.back());
   }
   add = () => {
-    this.setState({ isVisible: true, deviceID: "" });
+    let devices = this.props.devices;
+    let value = "Fan";
+    if(devices && devices.length > 0){
+        const reg = /^Fan(\d+)?$/g;
+        const regNum = /\d+$/g;
+        let result = 0;
+        devices.map((item, idx)=>{
+            if(item.name){
+                const regVal = item.name.match(reg);
+                if(regVal && regVal[0]){
+                    let num = regVal[0].match(regNum);
+                    num = num ? parseInt(num) : 0;
+                    if(num > result){
+                        result = num;
+                    }
+                }
+            }
+        });
+        value = value + (parseInt(result) + 1);
+    }
+    this.setState({ value, isVisible: true, deviceID: "" });
   }
   closeModal = () => {
     this.setState({ isVisible: false, value: "" });
