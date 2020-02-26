@@ -18,11 +18,11 @@ class Language extends Component {
     return (
       <View style={[styles.marginV20]}>
         <View style={styles.container}>
-          <SingleRow onPress={_=>{this.setLanguage("zh-CN")}} text={I18n.t("zhCN")} />
-          <SingleRow onPress={_=>{this.setLanguage("zh-TW")}} text={I18n.t("zhTW")} />
-          <SingleRow onPress={_=>{this.setLanguage("en-US")}} text={I18n.t("enUS")} />
-          <SingleRow onPress={_=>{this.setLanguage("ja-JP")}} text={I18n.t("jaJP")} />
-          <SingleRow onPress={_=>{this.setLanguage("ko-KR")}} text={I18n.t("koKR")} />
+          <SingleRow onPress={_=>{this.setLanguage("zh-CN")}} text={"中文简体"} />
+          <SingleRow onPress={_=>{this.setLanguage("zh-TW")}} text={"中文繁體"} />
+          <SingleRow onPress={_=>{this.setLanguage("en-US")}} text={"English"} />
+          <SingleRow onPress={_=>{this.setLanguage("ja-JP")}} text={"日本語"} />
+          <SingleRow onPress={_=>{this.setLanguage("ko-KR")}} text={"한국어"} />
         </View>
       </View>
     )

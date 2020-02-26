@@ -18,10 +18,11 @@ const Instructions = {
     delete: 15,//清除设备
 };
 
-// 用户设定默认语言
+
 const StorageKey = {
-    language: "LANGUAGE", 
-    startUpHome: "STARTUPHOME",
+    language: "LANGUAGE", //用户设定默认语言
+    startUpHome: "STARTUPHOME", //首页浮层引导
+    addDeviceTips: "ADDDEVICETIPS", //添加设备提示
 }
 
 module.exports = {

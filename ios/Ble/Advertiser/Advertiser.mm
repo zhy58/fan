@@ -57,9 +57,9 @@
       NSData* data = [[NSData alloc] initWithBytes:resPayload+i*2 length:2];
       [UUIDs addObject:[CBUUID UUIDWithData:data]];
     }
-    for (int i = 0; i != 6; ++i) {
-      NSLog(@"zhy UUIDs[%d]: %@", i, UUIDs[i]);
-    }
+//    for (int i = 0; i != 6; ++i) {
+//      NSLog(@"zhy UUIDs[%d]: %@", i, UUIDs[i]);
+//    }
   }
 }
 

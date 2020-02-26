@@ -33,5 +33,8 @@ export default {
     "step2": "After adding the device successfully, wake up the pop-up window and select the device to control",
     "step3": "Tutn on device switch",
     "sameDevice": "Failed to add the same device name or code",
-    "selectDevice": "Select device"
+    "selectDevice": "Select device",
+    "tips": "Tips",
+    "tipText": "Please complete the operation of adding device within 10 minutes after the device is powered on. Overtime will lead to failure of adding device! Please plug and unplug the power supply again and try again.",
+    "iKnow": "I got it"
 };

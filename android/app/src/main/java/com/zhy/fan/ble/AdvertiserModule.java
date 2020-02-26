@@ -432,11 +432,11 @@ public class AdvertiserModule extends ReactContextBaseJavaModule {
       payload[i] = Utils.strToByte(rawPayload.substring(i*2, (i+1)*2));
     }
 
-    Log.d("zhy deviceid", ""+deviceid);
-    Log.d("zhy hexStr", hexStr);
-    Log.d("zhy hex", ""+hex);
-    Log.d("zhy rawPayload", rawPayload);
-    Log.d("zhy", Arrays.toString(payload));
+    // Log.d("zhy deviceid", ""+deviceid);
+    // Log.d("zhy hexStr", hexStr);
+    // Log.d("zhy hex", ""+hex);
+    // Log.d("zhy rawPayload", rawPayload);
+    // Log.d("zhy", Arrays.toString(payload));
 
     final byte[] calculatedPayload = new byte[address.length+payload.length+5];
     BLEUtil.get_rf_payload(address, address.length, payload, payload.length, calculatedPayload);

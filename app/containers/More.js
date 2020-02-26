@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Platform } from 'react-native'
+import { StyleSheet, View, Platform, Text as RNText } from 'react-native'
 import { connect } from 'react-redux'
 import I18n from 'i18n-js'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import { FlatList, Text, Touchable, ButtonList, Modal, TextInput } from '../components'
 import tool from './style/style'
-import { NavigationActions, createAction, Toast } from '../utils'
+import { Storage, NavigationActions, createAction, Toast } from '../utils'
+import { StorageKey } from '../utils/config'
 import BLE from '../native'
 
 @connect(({ app }) => ({ ...app }))
@@ -14,10 +15,23 @@ class More extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isVisibleTips: false,
       isVisible: false,
       value: "",
       deviceID: "",
     }
+  }
+  componentDidMount() {
+    Storage.get(StorageKey.addDeviceTips).then(res => {
+        console.log("res: ", res);
+        if(!res){
+            this.setState({
+                isVisibleTips: true
+            });
+        }
+    }).catch(err => {
+        console.log("get StorageKey.addDeviceTips err: ", err);
+    });
   }
   render() {
     return (
@@ -50,6 +64,20 @@ class More extends Component {
               placeholder={I18n.t("enterDeviceName")} />
             <Touchable onPress={this.comfirm} style={styles.btn}>
               <Text style={styles.minText}>{I18n.t("confirm")}</Text>
+            </Touchable>
+          </View>
+        </Modal>
+
+        <Modal isVisible={this.state.isVisibleTips}
+          style={tool.flexCenter}
+          onBackButtonPress={this.closeModal}>
+          <View style={{flex: 1}}>
+            <Text style={[styles.tips, tool.weight]}>{I18n.t("tips")}:</Text>
+            <View style={styles.tipBox}>
+                <RNText style={styles.tipText}>{I18n.t("tipText")}</RNText>
+            </View>
+            <Touchable onPress={this.comfirmTips} style={styles.btn}>
+              <Text style={styles.minText}>{I18n.t("iKnow")}</Text>
             </Touchable>
           </View>
         </Modal>
@@ -89,6 +117,12 @@ class More extends Component {
       this.closeModal();
     }
   }
+  comfirmTips = () => {
+    this.setState({
+        isVisibleTips: false
+    });
+    Storage.set(StorageKey.addDeviceTips, true);
+  }
 }
 
 const styles = StyleSheet.create({
@@ -113,6 +147,18 @@ const styles = StyleSheet.create({
     color: "#333",
     fontSize: 16
   },
+  tips: {
+    color: "#333",
+    fontSize: 18
+  },
+  tipBox: {
+    marginTop: 10,
+    flex: 1,
+  },
+  tipText: {
+    color: "#666",
+    fontSize: 16
+  },
   input: {
     marginVertical: 20,
     fontSize: 14,
@@ -122,7 +168,7 @@ const styles = StyleSheet.create({
   btn: {
     marginHorizontal: 25,
     paddingHorizontal: 22,
-    paddingVertical: 5,
+    paddingVertical: 8,
     borderRadius: 16,
     borderColor: "#333",
     borderWidth: 0.5,

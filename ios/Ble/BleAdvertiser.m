@@ -54,23 +54,32 @@ RCT_REMAP_METHOD(choose, :(NSString *)deviceid :(NSString *)name resolveChoose:(
 RCT_REMAP_METHOD(currentDevice, resolveCurrent:(RCTPromiseResolveBlock)resolve rejectCurrent:(RCTPromiseRejectBlock)reject) {
   @try{
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    
     NSString *filePath = [NSHomeDirectory() stringByAppendingString:@"/Documents/AiFanConfig.json"];
-    NSData *data = [NSData dataWithContentsOfFile:filePath];//获取指定路径的data文件
-    id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil]; //获取到json文件的跟数据（字典）
-    NSString *deviceid = [json objectForKey:@"id"];
     
-    NSString *sql = [NSString stringWithFormat:@"SELECT deviceid,name FROM aifan WHERE deviceid = '%@';", deviceid];
-    sqlite3_stmt * stmt;
-    int ret = sqlite3_prepare_v2(_db, sql.UTF8String, -1, &stmt, NULL);
-    if (ret == SQLITE_OK) {
-      while (sqlite3_step(stmt) == SQLITE_ROW) {
-        [dic setValue:deviceid forKey:@"id"];
-        //参数1:结果集
-        //参数2:列数
-        const unsigned char *name = sqlite3_column_text(stmt, 1);
-        [dic setValue:[[NSString alloc] initWithUTF8String:(char*)name] forKey:@"name"];
+    if(![self isEqualToNil:filePath]){
+      NSData *data = [NSData dataWithContentsOfFile:filePath];//获取指定路径的data文件
+      
+      if(data != nil){
+        id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil]; //获取到json文件的跟数据（字典）
+        NSString *deviceid = [json objectForKey:@"id"];
+        
+        if(![self isEqualToNil:deviceid]){
+          NSString *sql = [NSString stringWithFormat:@"SELECT deviceid,name FROM aifan WHERE deviceid = '%@';", deviceid];
+          sqlite3_stmt * stmt;
+          int ret = sqlite3_prepare_v2(_db, sql.UTF8String, -1, &stmt, NULL);
+          if (ret == SQLITE_OK) {
+            while (sqlite3_step(stmt) == SQLITE_ROW) {
+              [dic setValue:deviceid forKey:@"id"];
+              //参数1:结果集
+              //参数2:列数
+              const unsigned char *name = sqlite3_column_text(stmt, 1);
+              [dic setValue:[[NSString alloc] initWithUTF8String:(char*)name] forKey:@"name"];
+            }
+          }
+        }
+        
       }
+      
     }
     resolve(dic);
   }@catch(NSException *exception){
@@ -175,8 +184,8 @@ RCT_REMAP_METHOD(send, :(int)order :(NSString *)deviceid :(RCTPromiseResolveBloc
 
 -  (NSNumber *)sendOrder:(int)order :(NSString *)deviceid {
   if([advertiser isBLEEnabled]) {
-    NSString *rawPayload = [self instructions:order];
-    // NSLog(@"zhy rawPayload: %@", rawPayload);
+    NSString *rawPayload = [self instructions:order :deviceid];
+//    NSLog(@"zhy rawPayload: %@", rawPayload);
     
     rawPayload = [rawPayload uppercaseString];
     rawPayload = [rawPayload stringByReplacingOccurrencesOfString:@" " withString:@""];
@@ -225,8 +234,27 @@ RCT_REMAP_METHOD(send, :(int)order :(NSString *)deviceid :(RCTPromiseResolveBloc
   });
 }
 
-- (NSString *)instructions:(int)order {
+- (NSString *)instructions:(int)order :(NSString *)deviceid {
+  NSString *did = @"";
+  if(order == 15){
+    did = @"CC CC CC CC";
+  }else{
+    NSInteger len = deviceid.length;
+    if(len != 4){
+      return false;
+    }
+    
+    NSString *iPre = @"";
+    for(NSInteger i = 0; i < len; i++)
+    {
+      iPre = [NSString stringWithFormat:@"0"@"%c", [deviceid characterAtIndex:i]];
+      did = [NSString stringWithFormat:@"%@%@", did, iPre];
+    }
+  }
+
+  NSString *str = @"AA66";
   NSString *rawPayload = @"";
+  NSString *inst = @"";
   switch (order) {
     case 0:
       rawPayload = @"A0";
@@ -280,7 +308,28 @@ RCT_REMAP_METHOD(send, :(int)order :(NSString *)deviceid :(RCTPromiseResolveBloc
     default:
       break;
   }
-  return rawPayload;
+  inst = [NSString stringWithFormat:@"%@%@%@ ", str, rawPayload,did];
+  unsigned long res = 0;
+  for(NSInteger j = 0; j < inst.length/2; j++){
+    NSString *subChart = [inst  substringWithRange:NSMakeRange(j*2, 2)];
+    unsigned long num = strtoul([subChart UTF8String],0,16);
+    res = res + num;
+  }
+  Byte byteRes = res;
+  NSString *hexStr = [self stringWithHexNumber:byteRes];
+  hexStr = [hexStr uppercaseString];
+  inst = [NSString stringWithFormat:@"%@%@ ", inst, hexStr];
+  inst = [inst stringByReplacingOccurrencesOfString:@" " withString:@""];
+  return inst;
+}
+
+- (NSString *)stringWithHexNumber:(NSUInteger)hexNumber{
+  char hexChar[6];
+  sprintf(hexChar, "%x", (int)hexNumber);
+  
+  NSString *hexString = [NSString stringWithCString:hexChar encoding:NSUTF8StringEncoding];
+  
+  return hexString;
 }
 
 - (BOOL)isEqualToNil:(NSString*)str {
@@ -296,7 +345,7 @@ RCT_REMAP_METHOD(send, :(int)order :(NSString *)deviceid :(RCTPromiseResolveBloc
   NSString *sql = @"";
   switch (type) {
       case 1:
-      sql = @"CREATE TABLE IF NOT EXISTS aifan(id text PRIMARY KEY AUTOINCREMENT, deviceid text NOT NULL, name text NOT NULL);";
+      sql = @"CREATE TABLE IF NOT EXISTS aifan(id INTEGER PRIMARY KEY AUTOINCREMENT, deviceid text NOT NULL, name text NOT NULL);";
       break;
       case 2:
       sql = [NSString stringWithFormat:@"INSERT INTO aifan (deviceid,name) VALUES ('%@', '%@');", deviceid, name];

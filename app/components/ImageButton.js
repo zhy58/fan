@@ -8,7 +8,9 @@ import Text from './Text'
 export const ImageButton = ({ style, source, text, ...rest }) => (
     <View style={[styles.btn, style]}>
         <Touchable {...rest}>
-            <Image source={source} style={styles.img} />
+            <View style={styles.img}>
+                <Image source={source} style={styles.img} />
+            </View>
         </Touchable>
         <Text style={styles.marginV5}>{text}</Text>
     </View>
@@ -24,7 +26,6 @@ const styles = StyleSheet.create({
     img: {
         width: 50,
         height: 50,
-        overflow: "hidden",
     },
     marginV5: {
         marginVertical: 5,

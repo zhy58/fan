@@ -32,7 +32,7 @@ class Home extends Component {
     }
   }
   componentWillMount() {
-    // this.initBle();
+    this.initBle();
   }
   componentDidMount() {
     Storage.get(StorageKey.startUpHome).then(res => {
@@ -275,6 +275,7 @@ const styles = StyleSheet.create({
   font12: {
     fontSize: 12,
     color: "#333",
+    fontWeight: "400",
     textAlign: "center",
     width: 90,
   },
