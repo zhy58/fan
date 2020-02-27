@@ -25,6 +25,18 @@ RCT_EXPORT_METHOD(initBLE){
     [self openSqlite];
 }
 
+RCT_EXPORT_METHOD(checkBLEState:(RCTPromiseResolveBlock)resolve rejectChoose:(RCTPromiseRejectBlock)reject){
+  @try{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    bool b = [advertiser isBLEEnabled];
+    [dic setValue:b ? @YES : @NO forKey:@"status"];
+    resolve(dic);
+  }@catch(NSException *exception){
+    NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:121 userInfo:@{NSLocalizedDescriptionKey:exception.reason}];
+    reject(@"no_events", @"There were no events", error);
+  }
+}
+
 RCT_EXPORT_METHOD(close) {
   [self closeSqlite];
 }
@@ -40,9 +52,9 @@ RCT_REMAP_METHOD(choose, :(NSString *)deviceid :(NSString *)name resolveChoose:(
         NSString *filePath = [NSHomeDirectory() stringByAppendingString:@"/Documents/AiFanConfig.json"];
         [jsonData writeToFile:filePath atomically:YES];
       }
-      [dic setValue:@true forKey:@"status"];
+      [dic setValue:@YES forKey:@"status"];
     }else{
-      [dic setValue:@false forKey:@"status"];
+      [dic setValue:@NO forKey:@"status"];
     }
     resolve(dic);
   }@catch(NSException *exception){

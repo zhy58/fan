@@ -37,5 +37,6 @@ export default {
     "tips": "提示",
     "tipText": "请在设备接通电源10分钟内完成添加设备的操作，超时会导致添加设备失败！请重新插拔电源再试。",
     "iKnow": "我知道了",
-    "noPrompt": "不再提示"
+    "noPrompt": "不再提示",
+    "openBLETip": "请打开蓝牙"
 };

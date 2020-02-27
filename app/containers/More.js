@@ -27,15 +27,6 @@ class More extends Component {
         this.setState({
             isVisibleTips: !res
         });
-        // if(res){
-        //     this.setState({
-        //         isVisibleTips: false
-        //     });
-        // }else{
-        //     this.setState({
-        //         isVisibleTips: true
-        //     });
-        // }
     }).catch(err => {
         console.log("get StorageKey.addDeviceTips err: ", err);
     });
@@ -130,25 +121,43 @@ class More extends Component {
     this.setState({ value: item.name, isVisible: true, deviceID: item.id });
   }
   del(item) {
-    if(item.id){
-      BLE.delete(item.id).then(({devices, status}) => {
-        this.props.dispatch(createAction("app/updateState")({ devices }));
-        this.props.dispatch(createAction("app/currentDevice")());
-      });
-    }
+    const that = this;
+    BLE.checkBLEState().then(res => {
+        if(res && res.status){
+            if(item.id){
+                BLE.delete(item.id).then(({devices, status}) => {
+                  that.props.dispatch(createAction("app/updateState")({ devices }));
+                  that.props.dispatch(createAction("app/currentDevice")());
+                });
+            }
+        }else{
+            Toast(I18n.t("openBLETip"));
+        }
+    }).catch(err => {
+        console.log("isBLEEnabled err: ", err);
+    });
   }
   comfirm = () => {
-    if(this.state.value){
-      BLE.add(this.state.value, this.state.deviceID).then(({devices, status}) => {
-        // console.log("devices: ", devices);
-        if(status == 0){
-          //设备存在
-          Toast(I18n.t("sameDevice"));
+    const that = this;
+    BLE.checkBLEState().then(res => {
+        if(res && res.status){
+            if(that.state.value){
+                BLE.add(that.state.value, that.state.deviceID).then(({devices, status}) => {
+                  // console.log("devices: ", devices);
+                  if(status == 0){
+                    //设备存在
+                    Toast(I18n.t("sameDevice"));
+                  }
+                  that.props.dispatch(createAction("app/updateState")({ devices }));
+                });
+                that.closeModal();
+            }
+        }else{
+            Toast(I18n.t("openBLETip"));
         }
-        this.props.dispatch(createAction("app/updateState")({ devices }));
-      });
-      this.closeModal();
-    }
+    }).catch(err => {
+        console.log("isBLEEnabled err: ", err);
+    });
   }
   comfirmTips = () => {
     this.setState({

@@ -1,6 +1,6 @@
 import { createAction, NavigationActions, StackActions, Storage, setLanguage } from '../utils'
 import * as authService from '../services/auth'
-import { StorageKey, Labels } from '../utils/config'
+import { Instructions, StorageKey } from '../utils/config'
 
 import I18n from 'i18n-js'
 import * as RNLocalize from "react-native-localize"
@@ -11,6 +11,7 @@ export default {
   namespace: 'app',
   state: {
     loading: true,
+    power: Instructions.powerOff,
     currentDevice: null,
     devices: []
   },

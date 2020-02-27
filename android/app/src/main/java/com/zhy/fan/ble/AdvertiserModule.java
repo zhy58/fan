@@ -107,7 +107,7 @@ public class AdvertiserModule extends ReactContextBaseJavaModule {
     Boolean isEnabled = bluetoothIsEnabled();
     try {
       WritableMap map = Arguments.createMap();
-      map.putBoolean("isEnabled", isEnabled);
+      map.putBoolean("status", isEnabled);
       promise.resolve(map);
     } catch (IllegalViewOperationException e) {
       promise.reject(e);

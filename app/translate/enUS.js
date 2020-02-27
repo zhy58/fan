@@ -37,5 +37,6 @@ export default {
     "tips": "Tips",
     "tipText": "Please complete the operation of adding device within 10 minutes after the device is powered on. Overtime will lead to failure of adding device! Please plug and unplug the power supply again and try again.",
     "iKnow": "I got it",
-    "noPrompt": "No more prompts"
+    "noPrompt": "No more prompts",
+    "openBLETip": "Please turn on Bluetooth"
 };

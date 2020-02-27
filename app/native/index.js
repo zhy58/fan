@@ -31,6 +31,10 @@ export default class BLE {
     static getDevices(){
         return BLEAdvertiser.getDevices();
     }
+    // 检查蓝牙状态
+    static checkBLEState(){
+        return BLEAdvertiser.checkBLEState();
+    }
     // static close(){
     //     if(Platform.OS == "ios"){
     //         return BLEAdvertiser.close();
@@ -55,8 +59,5 @@ export default class BLE {
     //         });
     //     });
     // }
-    // // 检查蓝牙状态
-    // static checkBLEState(){
-    //     return BLEAdvertiser.checkBLEState();
-    // }
+    
 }

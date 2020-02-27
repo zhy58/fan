@@ -28,7 +28,6 @@ class Home extends Component {
     this.state = {
       speed: 0,
       isVisible: false,
-      power: Instructions.powerOff,
     }
   }
   componentWillMount() {
@@ -44,6 +43,12 @@ class Home extends Component {
     }).catch(err => {
         console.log("get StorageKey.startUpHome err: ", err);
     });
+    if(this.props.power == Instructions.powerOn){
+        this.setState({ speed: 1 });
+        if(Platform.OS == "ios" && this.animation){
+            this.animation.play();
+        }
+    }
   }
   componentWillUnmount() {
     this.props.copilotEvents.off('stop');
@@ -59,37 +64,58 @@ class Home extends Component {
     return false;
   }
   power = _ => {
-    if(this.judgeDevice()){
-      const power = this.state.power === Instructions.powerOff ? Instructions.powerOn : Instructions.powerOff;
-      BLE.send(power, this.props.currentDevice.id).then(({status}) => {
-        // console.log("status: ", status);
-        if(status == 0){
-          let speed = 0;
-          if(power == Instructions.powerOn){
-            speed = 1;
-          }
-          this.setState({ speed, power });
-          if(Platform.OS == "ios"){
-            if(speed > 0){
-                this.animation.play();
-            }else{
-                this.animation.reset();
+    const that = this;
+    BLE.checkBLEState().then(res => {
+        if(res && res.status){
+            if(that.judgeDevice()){
+                const power = that.props.power === Instructions.powerOff ? Instructions.powerOn : Instructions.powerOff;
+                BLE.send(power, that.props.currentDevice.id).then(({status}) => {
+                  // console.log("status: ", status);
+                  if(status == 0){
+                    let speed = 0;
+                    if(power == Instructions.powerOn){
+                      speed = 1;
+                    }
+                    that.setState({ speed });
+                    that.props.dispatch(createAction("app/updateState")({ power }));
+                    if(Platform.OS == "ios"){
+                      if(speed > 0){
+                        that.animation.play();
+                      }else{
+                        that.animation.reset();
+                      }
+                    }
+                  }
+                });
             }
-          }
+        }else{
+            Toast(I18n.t("openBLETip"));
         }
-      });
-    }
+    }).catch(err => {
+        console.log("isBLEEnabled err: ", err);
+    });
+    
   }
   sendOrder(order) {
-    if(this.judgeDevice()){
-      BLE.send(order, this.props.currentDevice.id).then(res => {
-        if(res.status == 4){
-          Toast(I18n.t("openDeviceTip"));
+    const that = this;
+    BLE.checkBLEState().then(res => {
+        if(res && res.status){
+            if(that.judgeDevice()){
+                BLE.send(order, that.props.currentDevice.id).then(res => {
+                  if(res.status == 4){
+                    Toast(I18n.t("openDeviceTip"));
+                  }
+                }).catch(err => {
+                  console.log("sendOrder err", err);
+                });
+              }
+        }else{
+            Toast(I18n.t("openBLETip"));
         }
-      }).catch(err => {
-        console.log("sendOrder err", err);
-      });
-    }
+    }).catch(err => {
+        console.log("isBLEEnabled err: ", err);
+    });
+    
   }
   select = _ => {
     this.setState({ isVisible: true });
@@ -113,7 +139,6 @@ class Home extends Component {
       console.log("err: ", err);
     });
   }
-
   initBle = _ => {
     BLE.initBLE();
     this.props.dispatch(createAction("app/getDevices")());
@@ -123,7 +148,7 @@ class Home extends Component {
   render() {
     let dev = this.props.currentDevice || {};
     const selectDeviceName = dev.name ? dev.name : I18n.t("selectDevice");
-    let powerColor = this.state.power === Instructions.powerOn ? this.powerOnColor : this.powerOffColor;
+    let powerColor = this.props.power === Instructions.powerOn ? this.powerOnColor : this.powerOffColor;
     return (
       <View style={tool.container}>
         <ScrollView contentContainerStyle={tool.paddingH30}>
