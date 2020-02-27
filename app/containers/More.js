@@ -24,11 +24,18 @@ class More extends Component {
   componentDidMount() {
     Storage.get(StorageKey.addDeviceTips).then(res => {
         console.log("res: ", res);
-        if(!res){
-            this.setState({
-                isVisibleTips: true
-            });
-        }
+        this.setState({
+            isVisibleTips: !res
+        });
+        // if(res){
+        //     this.setState({
+        //         isVisibleTips: false
+        //     });
+        // }else{
+        //     this.setState({
+        //         isVisibleTips: true
+        //     });
+        // }
     }).catch(err => {
         console.log("get StorageKey.addDeviceTips err: ", err);
     });
@@ -70,15 +77,21 @@ class More extends Component {
 
         <Modal isVisible={this.state.isVisibleTips}
           style={tool.flexCenter}
+          maskStyle={{height: 250}}
           onBackButtonPress={this.closeModal}>
           <View style={{flex: 1}}>
             <Text style={[styles.tips, tool.weight]}>{I18n.t("tips")}:</Text>
             <View style={styles.tipBox}>
                 <RNText style={styles.tipText}>{I18n.t("tipText")}</RNText>
             </View>
-            <Touchable onPress={this.comfirmTips} style={styles.btn}>
-              <Text style={styles.minText}>{I18n.t("iKnow")}</Text>
-            </Touchable>
+            <View style={tool.flexBetween}>
+                <Touchable onPress={this.comfirmTips} style={styles.btn1}>
+                    <Text style={styles.minText}>{I18n.t("noPrompt")}</Text>
+                </Touchable>
+                <Touchable onPress={this.comfirmTipsFirst} style={styles.btn1}>
+                    <Text style={styles.minText}>{I18n.t("iKnow")}</Text>
+                </Touchable>
+            </View>
           </View>
         </Modal>
       </View>
@@ -143,6 +156,11 @@ class More extends Component {
     });
     Storage.set(StorageKey.addDeviceTips, true);
   }
+  comfirmTipsFirst = () => {
+    this.setState({
+        isVisibleTips: false
+    });
+  }
 }
 
 const styles = StyleSheet.create({
@@ -188,6 +206,14 @@ const styles = StyleSheet.create({
   btn: {
     marginHorizontal: 25,
     paddingHorizontal: 22,
+    paddingVertical: 8,
+    borderRadius: 16,
+    borderColor: "#333",
+    borderWidth: 0.5,
+    alignItems: "center",
+  },
+  btn1: {
+    paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 16,
     borderColor: "#333",

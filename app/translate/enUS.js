@@ -36,5 +36,6 @@ export default {
     "selectDevice": "Select device",
     "tips": "Tips",
     "tipText": "Please complete the operation of adding device within 10 minutes after the device is powered on. Overtime will lead to failure of adding device! Please plug and unplug the power supply again and try again.",
-    "iKnow": "I got it"
+    "iKnow": "I got it",
+    "noPrompt": "No more prompts"
 };

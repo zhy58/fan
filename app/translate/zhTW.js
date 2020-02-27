@@ -36,5 +36,6 @@ export default {
     "selectDevice": "選擇設備",
     "tips": "提示",
     "tipText": "請在設備接通電源10分鐘內完成添加設備的操作，超時會導致添加設備失敗！請重新插拔電源再試。",
-    "iKnow": "我知道了"
+    "iKnow": "我知道了",
+    "noPrompt": "不再提示"
 };
