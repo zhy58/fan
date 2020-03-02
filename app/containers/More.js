@@ -23,7 +23,7 @@ class More extends Component {
   }
   componentDidMount() {
     Storage.get(StorageKey.addDeviceTips).then(res => {
-        console.log("res: ", res);
+        // console.log("res: ", res);
         this.setState({
             isVisibleTips: !res
         });
