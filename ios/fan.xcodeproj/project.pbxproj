@@ -14,6 +14,9 @@
 		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
 		00E356F31AD99517003FC87E /* fanTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* fanTests.m */; };
 		04200CCA24057C630014F19D /* bundle in Resources */ = {isa = PBXBuildFile; fileRef = 04200CC924057C630014F19D /* bundle */; };
+		04367A60240D35E90025F39C /* whitening.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04367A5A240D35E90025F39C /* whitening.cpp */; };
+		04367A61240D35E90025F39C /* crc16.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04367A5D240D35E90025F39C /* crc16.cpp */; };
+		04367A62240D35E90025F39C /* BleUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04367A5F240D35E90025F39C /* BleUtil.cpp */; };
 		04B15EAE23E97EAD004276F3 /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B15EA923E97E18004276F3 /* libRNSVG.a */; };
 		04B15EF423E98049004276F3 /* Lottie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CAC31E364FE4B259C789EC6 /* Lottie.framework */; };
 		04B15EF723E9811B004276F3 /* Lottie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B4759923E4557F00592D10 /* Lottie.framework */; };
@@ -36,9 +39,6 @@
 		04B475CD23E4575900592D10 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04B475BD23E4575900592D10 /* EvilIcons.ttf */; };
 		04B475CE23E4575900592D10 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04B475BE23E4575900592D10 /* SimpleLineIcons.ttf */; };
 		04B475CF23E4575900592D10 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04B475BF23E4575900592D10 /* MaterialIcons.ttf */; };
-		04E1A19B2400241A00B67E1D /* whitening.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04E1A1952400241A00B67E1D /* whitening.cpp */; };
-		04E1A19C2400241A00B67E1D /* crc16.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04E1A1982400241A00B67E1D /* crc16.cpp */; };
-		04E1A19D2400241A00B67E1D /* BleUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04E1A19A2400241A00B67E1D /* BleUtil.cpp */; };
 		1125BF0C5B0844FC9924D633 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AF2AF9B56964FFCA60A9F85 /* SimpleLineIcons.ttf */; };
 		11D1A2F320CAFA9E000508D9 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
@@ -481,6 +481,12 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* fanTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = fanTests.m; sourceTree = "<group>"; };
 		04200CC924057C630014F19D /* bundle */ = {isa = PBXFileReference; lastKnownFileType = folder; path = bundle; sourceTree = "<group>"; };
+		04367A5A240D35E90025F39C /* whitening.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = whitening.cpp; sourceTree = "<group>"; };
+		04367A5B240D35E90025F39C /* crc16.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crc16.h; sourceTree = "<group>"; };
+		04367A5C240D35E90025F39C /* whitening.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = whitening.h; sourceTree = "<group>"; };
+		04367A5D240D35E90025F39C /* crc16.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = crc16.cpp; sourceTree = "<group>"; };
+		04367A5E240D35E90025F39C /* BleUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BleUtil.h; sourceTree = "<group>"; };
+		04367A5F240D35E90025F39C /* BleUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BleUtil.cpp; sourceTree = "<group>"; };
 		04B15E7623E97E18004276F3 /* RNSVG.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSVG.xcodeproj; path = "../node_modules/react-native-svg/ios/RNSVG.xcodeproj"; sourceTree = "<group>"; };
 		04B15EFD23EA637E004276F3 /* BleAdvertiser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BleAdvertiser.m; sourceTree = "<group>"; };
 		04B15EFF23EA63C3004276F3 /* BleAdvertiser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BleAdvertiser.h; sourceTree = "<group>"; };
@@ -502,12 +508,6 @@
 		04B475BD23E4575900592D10 /* EvilIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = EvilIcons.ttf; sourceTree = "<group>"; };
 		04B475BE23E4575900592D10 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimpleLineIcons.ttf; sourceTree = "<group>"; };
 		04B475BF23E4575900592D10 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
-		04E1A1952400241A00B67E1D /* whitening.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = whitening.cpp; sourceTree = "<group>"; };
-		04E1A1962400241A00B67E1D /* crc16.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crc16.h; sourceTree = "<group>"; };
-		04E1A1972400241A00B67E1D /* whitening.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = whitening.h; sourceTree = "<group>"; };
-		04E1A1982400241A00B67E1D /* crc16.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = crc16.cpp; sourceTree = "<group>"; };
-		04E1A1992400241A00B67E1D /* BleUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BleUtil.h; sourceTree = "<group>"; };
-		04E1A19A2400241A00B67E1D /* BleUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BleUtil.cpp; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* fan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = fan.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -681,6 +681,19 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		04367A59240D35E90025F39C /* BLELib */ = {
+			isa = PBXGroup;
+			children = (
+				04367A5A240D35E90025F39C /* whitening.cpp */,
+				04367A5B240D35E90025F39C /* crc16.h */,
+				04367A5C240D35E90025F39C /* whitening.h */,
+				04367A5D240D35E90025F39C /* crc16.cpp */,
+				04367A5E240D35E90025F39C /* BleUtil.h */,
+				04367A5F240D35E90025F39C /* BleUtil.cpp */,
+			);
+			path = BLELib;
+			sourceTree = "<group>";
+		};
 		04B15E7723E97E18004276F3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -693,7 +706,7 @@
 		04B15EFC23EA618C004276F3 /* Ble */ = {
 			isa = PBXGroup;
 			children = (
-				04E1A1942400241A00B67E1D /* BLELib */,
+				04367A59240D35E90025F39C /* BLELib */,
 				04B15F0023EA6A89004276F3 /* Advertiser */,
 				04B15EFF23EA63C3004276F3 /* BleAdvertiser.h */,
 				04B15EFD23EA637E004276F3 /* BleAdvertiser.m */,
@@ -786,19 +799,6 @@
 			name = Fonts;
 			path = "../node_modules/react-native-vector-icons/Fonts";
 			sourceTree = "<group>";
-		};
-		04E1A1942400241A00B67E1D /* BLELib */ = {
-			isa = PBXGroup;
-			children = (
-				04E1A1952400241A00B67E1D /* whitening.cpp */,
-				04E1A1962400241A00B67E1D /* crc16.h */,
-				04E1A1972400241A00B67E1D /* whitening.h */,
-				04E1A1982400241A00B67E1D /* crc16.cpp */,
-				04E1A1992400241A00B67E1D /* BleUtil.h */,
-				04E1A19A2400241A00B67E1D /* BleUtil.cpp */,
-			);
-			path = BLELib;
-			sourceTree = SOURCE_ROOT;
 		};
 		139105B71AF99BAD00B5F7CC /* Products */ = {
 			isa = PBXGroup;
@@ -1671,12 +1671,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				04B15F0523EA6BA0004276F3 /* Advertiser.mm in Sources */,
-				04E1A19D2400241A00B67E1D /* BleUtil.cpp in Sources */,
+				04367A62240D35E90025F39C /* BleUtil.cpp in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				04B15EFE23EA637E004276F3 /* BleAdvertiser.m in Sources */,
-				04E1A19C2400241A00B67E1D /* crc16.cpp in Sources */,
+				04367A61240D35E90025F39C /* crc16.cpp in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
-				04E1A19B2400241A00B67E1D /* whitening.cpp in Sources */,
+				04367A60240D35E90025F39C /* whitening.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

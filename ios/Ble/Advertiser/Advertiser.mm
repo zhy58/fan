@@ -1,81 +1,94 @@
 //
 //  Advertiser.m
-//  fan
+//  PANBLEPeripherialDemo
 //
-//  Created by mac on 2020/2/5.
-//  Copyright © 2020 Facebook. All rights reserved.
+//  Created by 佳文 on 2018/9/26.
+//  Copyright © 2018年 Panchip. All rights reserved.
+//
 
 #import "Advertiser.h"
 #import "BleUtil.h"
 
-#define TARGET_ADDRESS  {0xcc, 0xcc, 0xcc, 0xcc, 0xcc}
-#define ADDRESS_LENGTH  5
+#define MAX_PAYLOAD_LEN     26
 
-@implementation Advertiser{
-  NSMutableArray* UUIDs;
+@implementation Advertiser {
+    NSMutableArray* UUIDs;
+    int actualPayloadLen;
+    unsigned char resPayload[MAX_PAYLOAD_LEN];
 }
 
 @synthesize peripheralManager;
 
-- (void)peripheralManagerDidUpdateState:(nonnull CBPeripheralManager *)peripheral {
-  
-}
 
 - (void)initialize {
-  peripheralManager = [[CBPeripheralManager alloc] initWithDelegate:self queue:nil];
-}
-
-- (BOOL)isBLEEnabled {
-  return peripheralManager.state == CBManagerStatePoweredOn;
-}
-
-- (void)setPayload :(unsigned char *)payload OfLength:(int)length {
-  
-  @autoreleasepool {
-    int resPayloadLen = length + ADDRESS_LENGTH + PREAMBLE_LENGTH + CRC_LENGTH;
-    resPayloadLen = (resPayloadLen%2 == 1)?resPayloadLen+1:resPayloadLen;
-    unsigned char address[] = TARGET_ADDRESS;
-    unsigned char resPayload[resPayloadLen];
-    get_rf_payload(address, ADDRESS_LENGTH, payload, length, resPayload);
-//    for (int i = 0; i != resPayloadLen; ++i) {
-//        //NSLog(@"zhy resPayload[%d]: %x", i, resPayload[i]);
-//      printf("zhy resPayload[%d]：%x\n", i, resPayload[i]);
-//    }
-    
-    for (int i = 0; i != resPayloadLen/2; ++i) {
-      int tmp = resPayload[i*2+1];
-      resPayload[i*2+1] = resPayload[i*2];
-      resPayload[i*2] = tmp;
-    }
-    
-    if (UUIDs != nil) {
-      [UUIDs removeAllObjects];
-    } else {
-      UUIDs = [[NSMutableArray alloc] init];
-    }
-    for (int i = 0; i != resPayloadLen/2; ++i) {
-      NSData* data = [[NSData alloc] initWithBytes:resPayload+i*2 length:2];
-      [UUIDs addObject:[CBUUID UUIDWithData:data]];
-    }
-//    for (int i = 0; i != 6; ++i) {
-//      NSLog(@"zhy UUIDs[%d]: %@", i, UUIDs[i]);
-//    }
-  }
+    actualPayloadLen = -1;
+    peripheralManager = [[CBPeripheralManager alloc] initWithDelegate:self queue:nil];
 }
 
 - (void)start {
-  if ([self isBLEEnabled] && ![peripheralManager isAdvertising] && UUIDs != nil) {
-    [peripheralManager startAdvertising:@{CBAdvertisementDataServiceUUIDsKey:UUIDs}];
-  }
+    if ([self isBluetoothEnabled] && ![peripheralManager isAdvertising] && UUIDs != nil) {
+        [peripheralManager startAdvertising:@{CBAdvertisementDataServiceUUIDsKey:UUIDs}];
+    }
 }
 
 - (void)stop {
-  if ([peripheralManager isAdvertising])
-    [peripheralManager stopAdvertising];
+    if ([peripheralManager isAdvertising])
+        [peripheralManager stopAdvertising];
 }
 
 - (BOOL)isAdvertising {
-  return [peripheralManager isAdvertising];
+    return [peripheralManager isAdvertising];
+}
+
+- (void)setAddress:(Byte *)address ofLength:(int)addrLength andPayload:(unsigned char *)payload ofLength:(int)payloadLength {
+    @autoreleasepool {
+        actualPayloadLen = payloadLength + addrLength + PREAMBLE_LENGTH + CRC_LENGTH;
+        
+        get_rf_payload(address, addrLength, ADV_EXHEADER_LENGTH, payload, payloadLength, resPayload);
+//        for (int i = 0; i != actualPayloadLen; ++i) {
+//            NSLog(@"%x", resPayload[i]);
+//        }
+        
+        for (int i = actualPayloadLen; i < MAX_PAYLOAD_LEN; ++i) {
+            resPayload[i] = i;
+        }
+        
+        for (int i = 0; i != MAX_PAYLOAD_LEN/2; ++i) {
+            int tmp = resPayload[i*2+1];
+            resPayload[i*2+1] = resPayload[i*2];
+            resPayload[i*2] = tmp;
+        }
+        
+        if (UUIDs != nil) {
+            [UUIDs removeAllObjects];
+        } else {
+            UUIDs = [[NSMutableArray alloc] init];
+        }
+        for (int i = 0; i != MAX_PAYLOAD_LEN/2; ++i) {
+            NSData* data = [[NSData alloc] initWithBytes:resPayload+i*2 length:2];
+            [UUIDs addObject:[CBUUID UUIDWithData:data]];
+        }
+    }
+}
+
+- (int)getAdvPayload:(Byte *)advPayload {
+    if (actualPayloadLen > 0)
+        memcpy(advPayload, resPayload, actualPayloadLen);
+    return actualPayloadLen;
+}
+
+- (BOOL)isBluetoothEnabled {
+    return peripheralManager.state == CBManagerStatePoweredOn;
+}
+
+- (void)peripheralManagerDidStartAdvertising:(CBPeripheralManager *)peripheral error:(NSError *)error {
+    NSLog(@"did start advertising");
+}
+
+- (void)peripheralManagerDidUpdateState:(nonnull CBPeripheralManager *)peripheral {
+    
 }
 
 @end
+
+

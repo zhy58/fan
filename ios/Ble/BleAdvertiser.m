@@ -13,6 +13,7 @@
 @implementation BleAdvertiser {
   Advertiser* advertiser;
   NSArray* HEXs;
+  NSString* rawAddress;
   sqlite3 *_db;
 }
 
@@ -20,6 +21,8 @@ RCT_EXPORT_MODULE(BLEAdvertiser);
 
 RCT_EXPORT_METHOD(initBLE){
     HEXs = @[@"0", @"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"A", @"B", @"C", @"D", @"E", @"F"];
+    rawAddress = @"cc cc cc cc cc";
+  
     advertiser = [[Advertiser alloc] init];
     [advertiser initialize];
     [self openSqlite];
@@ -28,7 +31,7 @@ RCT_EXPORT_METHOD(initBLE){
 RCT_EXPORT_METHOD(checkBLEState:(RCTPromiseResolveBlock)resolve rejectChoose:(RCTPromiseRejectBlock)reject){
   @try{
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    bool b = [advertiser isBLEEnabled];
+    bool b = [advertiser isBluetoothEnabled];
     [dic setValue:b ? @YES : @NO forKey:@"status"];
     resolve(dic);
   }@catch(NSException *exception){
@@ -195,15 +198,21 @@ RCT_REMAP_METHOD(send, :(int)order :(NSString *)deviceid :(RCTPromiseResolveBloc
 }
 
 -  (NSNumber *)sendOrder:(int)order :(NSString *)deviceid {
-  if([advertiser isBLEEnabled]) {
+  if([advertiser isBluetoothEnabled]) {
+    // address handling
+    rawAddress = [rawAddress uppercaseString];
+    rawAddress = [rawAddress stringByReplacingOccurrencesOfString:@" " withString:@""];
+    unsigned char addressBytes[rawAddress.length/2];
+    [self string:rawAddress toBytes:addressBytes];
+    
     NSString *rawPayload = [self instructions:order :deviceid];
-//    NSLog(@"zhy rawPayload: %@", rawPayload);
+    //NSLog(@"zhy rawPayload: %@", rawPayload);
     
     rawPayload = [rawPayload uppercaseString];
     rawPayload = [rawPayload stringByReplacingOccurrencesOfString:@" " withString:@""];
     unsigned char payloadBytes[rawPayload.length/2];
     [self string:rawPayload toBytes:payloadBytes];
-    [advertiser setPayload:payloadBytes OfLength:(int)rawPayload.length/2];
+    [advertiser setAddress:addressBytes ofLength:rawAddress.length/2 andPayload:payloadBytes ofLength:rawPayload.length/2];
     
     [advertiser start];
     [self delayMethod];
