@@ -142,17 +142,31 @@ class More extends Component {
     BLE.checkBLEState().then(res => {
         if(res && res.status){
             if(that.state.value){
-                BLE.add(that.state.value, that.state.deviceID).then(({devices, status}) => {
-                  // console.log("devices: ", devices);
-                  if(status == 0){
-                    //设备存在
-                    Toast(I18n.t("sameDevice"));
-                  }
-                  that.props.dispatch(createAction("app/updateState")({ devices }));
+                BLE.isSupport().then(({ isSupport }) => {
+                    if(isSupport){
+                        BLE.add(that.state.value, that.state.deviceID).then(({devices, status}) => {
+                        //   console.log("devices: ", devices, status);
+                          that.props.dispatch(createAction("app/updateState")({ devices }));
+                          if(status == 0){
+                            //设备存在
+                            Toast(I18n.t("sameDevice"));
+                          }else{
+                            that.closeModal();
+                            setTimeout(()=>{
+                                that.goBack();
+                            }, 350);
+                          }
+                        });
+                    }else{
+                        that.closeModal();
+                        Toast(I18n.t("noSupportBLEAdv"));
+                    }
+                }).catch(err => {
+                    console.log("isSupport err: ", err);
                 });
-                that.closeModal();
             }
         }else{
+            that.closeModal();
             Toast(I18n.t("openBLETip"));
         }
     }).catch(err => {

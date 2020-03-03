@@ -35,14 +35,16 @@ export default class BLE {
     static checkBLEState(){
         return BLEAdvertiser.checkBLEState();
     }
+    // 广播支持
+    static isSupport(){
+        if(Platform.OS == "android"){
+            return BLEAdvertiser.isSupport();
+        }
+    }
     // static close(){
     //     if(Platform.OS == "ios"){
     //         return BLEAdvertiser.close();
     //     }
-    // }
-    // // 广播支持
-    // static isSupport(){
-    //     return BLEAdvertiser.advertisementIsSupportAndInit();
     // }
     // // 打开蓝牙
     // static openBLE(){

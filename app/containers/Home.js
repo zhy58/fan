@@ -150,7 +150,7 @@ class Home extends Component {
     const selectDeviceName = dev.name ? dev.name : I18n.t("selectDevice");
     let powerColor = this.props.power === Instructions.powerOn ? this.powerOnColor : this.powerOffColor;
     return (
-      <View style={tool.container}>
+      <View style={[tool.container, styles.container]}>
         <ScrollView contentContainerStyle={tool.paddingH30}>
             <View style={[tool.flexCenter, tool.marginT30]}>
                 <CopilotStep text={this.step3} order={3} name="step3">
@@ -252,6 +252,12 @@ class Home extends Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    paddingTop: Platform.select({
+        ios: 20,
+        android: 0,
+    }),
+  },
   iconBtnCir: {
     borderRadius: 25,
   },
