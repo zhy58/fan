@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native'
 import { connect } from 'react-redux'
 import I18n from 'i18n-js'
 
-import { NavigationActions, StackActions, Storage, setLanguage } from '../utils'
+import { createAction, NavigationActions, StackActions, Storage, setLanguage } from '../utils'
 import { SingleRow } from '../components'
 import { StorageKey } from '../utils/config'
 
@@ -31,7 +31,11 @@ class Language extends Component {
   setLanguage(lang){
     const code = lang.replace(/-/g, '');
     const language = { lang, code };
-    
+    let isKoKR = false;
+    if(language.lang == "ko-KR"){
+        isKoKR = true;
+    }
+    this.props.dispatch(createAction("app/updateState")({ isKoKR }));
     setLanguage(language);
     Storage.set(StorageKey.language, language);
     this.props.dispatch(StackActions.reset({

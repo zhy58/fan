@@ -177,12 +177,20 @@ public class AdvertiserModule extends ReactContextBaseJavaModule {
   @ReactMethod
   public void delete(String id, Promise promise){
     WritableMap map = Arguments.createMap();
-    if (sendOrder(ID,15, "")){
-      db.delete("aifan","deviceid = ?", new String[]{id});
-      map.putInt("status", 0);
-    }else{
-      map.putInt("status", 3);
-    }
+//    if(!bluetoothAdapter.isEnabled()){
+//      map.putInt("status", 3);
+//    }else{
+//      if (sendOrder(ID,15, "")){
+//        db.delete("aifan","deviceid = ?", new String[]{id});
+//        map.putInt("status", 0);
+//      }else{
+//        map.putInt("status", 3);
+//      }
+//    }
+
+    db.delete("aifan","deviceid = ?", new String[]{id});
+    map.putInt("status", 0);
+
     WritableArray arrays = getDeviceList();
     map.putArray("devices", arrays);
     promise.resolve(map);

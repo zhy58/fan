@@ -92,26 +92,26 @@ class More extends Component {
     this.props.dispatch(NavigationActions.back());
   }
   add = () => {
-    let devices = this.props.devices;
-    let value = "Fan";
-    if(devices && devices.length > 0){
-        const reg = /^Fan(\d+)?$/g;
-        const regNum = /\d+$/g;
-        let result = 0;
-        devices.map((item, idx)=>{
-            if(item.name){
-                const regVal = item.name.match(reg);
-                if(regVal && regVal[0]){
-                    let num = regVal[0].match(regNum);
-                    num = num ? parseInt(num) : 0;
-                    if(num > result){
-                        result = num;
-                    }
-                }
-            }
-        });
-        value = value + (parseInt(result) + 1);
-    }
+    let value = "MY FANS";
+    // let devices = this.props.devices;
+    // if(devices && devices.length > 0){
+    //     const reg = /^Fan(\d+)?$/g;
+    //     const regNum = /\d+$/g;
+    //     let result = 0;
+    //     devices.map((item, idx)=>{
+    //         if(item.name){
+    //             const regVal = item.name.match(reg);
+    //             if(regVal && regVal[0]){
+    //                 let num = regVal[0].match(regNum);
+    //                 num = num ? parseInt(num) : 0;
+    //                 if(num > result){
+    //                     result = num;
+    //                 }
+    //             }
+    //         }
+    //     });
+    //     value = value + (parseInt(result) + 1);
+    // }
     this.setState({ value, isVisible: true, deviceID: "" });
   }
   closeModal = () => {
@@ -122,20 +122,21 @@ class More extends Component {
   }
   del(item) {
     const that = this;
-    BLE.checkBLEState().then(res => {
-        if(res && res.status){
-            if(item.id){
-                BLE.delete(item.id).then(({devices, status}) => {
-                  that.props.dispatch(createAction("app/updateState")({ devices }));
-                  that.props.dispatch(createAction("app/currentDevice")());
-                });
-            }
-        }else{
-            Toast(I18n.t("openBLETip"));
-        }
-    }).catch(err => {
-        console.log("isBLEEnabled err: ", err);
-    });
+    if(item.id){
+        BLE.delete(item.id).then(({devices, status}) => {
+          that.props.dispatch(createAction("app/updateState")({ devices }));
+          that.props.dispatch(createAction("app/currentDevice")());
+        });
+    }
+    // BLE.checkBLEState().then(res => {
+    //     if(res && res.status){
+            
+    //     }else{
+    //         Toast(I18n.t("openBLETip"));
+    //     }
+    // }).catch(err => {
+    //     console.log("isBLEEnabled err: ", err);
+    // });
   }
   comfirm = () => {
     const that = this;

@@ -10,6 +10,7 @@ import BLE from '../native'
 export default {
   namespace: 'app',
   state: {
+    isKoKR: false,
     loading: true,
     power: Instructions.powerOff,
     currentDevice: null,
@@ -23,7 +24,11 @@ export default {
   effects: {
     *loadStorage({ payload }, { call, put }) {
       const language = yield call(Storage.get, StorageKey.language);
+      let isKoKR = false;
       if(language){
+        if(language.lang == "ko-KR"){
+            isKoKR = true;
+        }
         setLanguage(language);
       }else{
         let _language = {},
@@ -38,9 +43,12 @@ export default {
         if(!translate[_language.code]){
           _language = {lang: "en-US", code: "enUS"};
         }
+        if(_language.lang == "ko-KR"){
+            isKoKR = true;
+        }
         setLanguage(_language);
       }
-      yield put(createAction("updateState")({ loading: false }));
+      yield put(createAction("updateState")({ loading: false, isKoKR }));
     },
     *getDevices({ payload }, { call, put }) {
       const devices = yield call(BLE.getDevices);

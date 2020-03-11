@@ -185,7 +185,7 @@ class Home extends Component {
           </View>
           {/* 循环 */}
           <View style={tool.marginT20}>
-            <CtrlTitle title={I18n.t("rotation")} />
+            <CtrlTitle title={this.props.isKoKR ? "Rotation" : I18n.t("rotation")} />
             <View style={[tool.flexBetween, tool.marginT10]}>
               <ImageButton onPress={_=>{this.sendOrder(Instructions.upDown)}} source={require('../images/updown.png')} text={I18n.t("upDown")} />
               <ImageButton onPress={_=>{this.sendOrder(Instructions.leftRight)}} source={require('../images/lrt.png')} text={I18n.t("leftRight")} />
@@ -195,7 +195,7 @@ class Home extends Component {
           </View>
           {/* 模式 */}
           <View style={tool.marginT20}>
-            <CtrlTitle title={I18n.t("windMode")} />
+            <CtrlTitle title={this.props.isKoKR ? "Wind mode" : I18n.t("windMode")} />
             <View style={[tool.flexBetween, tool.marginT10]}>
               <ImageButton onPress={_=>{this.sendOrder(Instructions.sleepWind)}} source={require('../images/sleep.png')} text={I18n.t("sleep")} />
               <ImageButton onPress={_=>{this.sendOrder(Instructions.naturalWind)}} source={require('../images/natural.png')} text={I18n.t("natural")} />
@@ -206,10 +206,11 @@ class Home extends Component {
         </ScrollView>
         {/* 语言，设备切换，设备添加 */}
         <View style={[styles.bar, tool.flexBetween]}>
-          <View style={tool.flexCenter}>
+          {/* <View style={tool.flexCenter}>
             <IconButton size={24} onPress={this.goLanguage} type={"Octicons"} name={"globe"} style={styles.icon} />
             <Text style={styles.font12}>{I18n.t("language")}</Text>
-          </View>
+          </View> */}
+          <IconButton onPress={this.goLanguage} type={"Octicons"} name={"globe"} style={styles.icon} />
           <CopilotStep text={this.step2} order={2} name="step2">
             <WalkthroughableText>
             <Touchable style={[styles.select, tool.flexCenter]} onPress={this.select}>
@@ -219,10 +220,11 @@ class Home extends Component {
           </CopilotStep>
           <CopilotStep text={this.step1} order={1} name="step1">
             <WalkthroughableText>
-            <View style={tool.flexCenter}>
+            <IconButton onPress={this.goMore} type={"Octicons"} name={"gear"} style={styles.icon} />
+            {/* <View style={tool.flexCenter}>
                 <IconButton size={24} onPress={this.goMore} type={"Octicons"} name={"gear"} style={styles.icon} />
                 <Text style={styles.font12}>{I18n.t("device")}</Text>
-            </View>
+            </View> */}
             </WalkthroughableText>
           </CopilotStep>
         </View>
@@ -273,14 +275,14 @@ const styles = StyleSheet.create({
     height: 90,
   },
   bar: {
-    paddingHorizontal: 10,
+    paddingHorizontal: 30,//10,
     height: 50,
     justifyContent: "center",
     overflow: "hidden",
   },
   icon: {
-    width: 30,
-    height: 30,
+    width: 50,//30,
+    height: 50,//30,
     backgroundColor: "transparent",
   },
   marginT15: {
@@ -291,8 +293,8 @@ const styles = StyleSheet.create({
     margin: 0
   },
   select: {
-    width: 130,
-    height: 30
+    width: 120,//130,
+    height: 40//30
   },
   selectList: {
     paddingVertical: 8,
