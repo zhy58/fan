@@ -116,15 +116,21 @@ RCT_REMAP_METHOD(getDevices, :(RCTPromiseResolveBlock)resolve :(RCTPromiseReject
 RCT_REMAP_METHOD(delete, :(NSString *)deviceid :(RCTPromiseResolveBlock)resolve :(RCTPromiseRejectBlock)reject){
   @try{
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    if([[self sendOrder:15 :deviceid]  isEqual: @0]){
-      BOOL b = [self execSqlite:3 :deviceid :@""];
-      if(!b){
-        [dic setValue:@1 forKey:@"status"];
-      }
-      [dic setValue:@0 forKey:@"status"];
-    }else{
-      [dic setValue:@3 forKey:@"status"];
-    }
+    BOOL b = [self execSqlite:3 :deviceid :@""];
+    [dic setValue:@0 forKey:@"status"];
+    if(!b){
+       [dic setValue:@1 forKey:@"status"];
+     }
+     
+//    if([[self sendOrder:15 :deviceid]  isEqual: @0]){
+//      BOOL b = [self execSqlite:3 :deviceid :@""];
+//      if(!b){
+//        [dic setValue:@1 forKey:@"status"];
+//      }
+//      [dic setValue:@0 forKey:@"status"];
+//    }else{
+//      [dic setValue:@3 forKey:@"status"];
+//    }
     NSArray *array = [self querySqlite];
     [dic setValue:array forKey:@"devices"];
     resolve(dic);

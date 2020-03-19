@@ -3,55 +3,55 @@
     {
       "size" : "20x20",
       "idiom" : "iphone",
-      "filename" : "SJDCFaniPhoneNotification_20pt@2x.png",
+      "filename" : "app.logo_03iPhoneNotification_20pt@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "20x20",
       "idiom" : "iphone",
-      "filename" : "SJDCFaniPhoneNotification_20pt@3x.png",
+      "filename" : "app.logo_03iPhoneNotification_20pt@3x.png",
       "scale" : "3x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "SJDCFaniPhoneSpootlight5_29pt@2x.png",
+      "filename" : "app.logo_03iPhoneSpootlight5_29pt@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "SJDCFaniPhoneSpootlight5_29pt@3x.png",
+      "filename" : "app.logo_03iPhoneSpootlight5_29pt@3x.png",
       "scale" : "3x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "SJDCFaniPhoneSpootlight7_40pt@2x.png",
+      "filename" : "app.logo_03iPhoneSpootlight7_40pt@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "SJDCFaniPhoneSpootlight7_40pt@3x.png",
+      "filename" : "app.logo_03iPhoneSpootlight7_40pt@3x.png",
       "scale" : "3x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "SJDCFaniPhoneApp_60pt@2x.png",
+      "filename" : "app.logo_03iPhoneApp_60pt@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "SJDCFaniPhoneApp_60pt@3x.png",
+      "filename" : "app.logo_03iPhoneApp_60pt@3x.png",
       "scale" : "3x"
     },
     {
       "size" : "1024x1024",
       "idiom" : "ios-marketing",
-      "filename" : "1024副本.jpg",
+      "filename" : "1024.jpg",
       "scale" : "1x"
     }
   ],

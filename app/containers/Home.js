@@ -63,6 +63,13 @@ class Home extends Component {
     Toast(I18n.t("selectDeviceTip"));
     return false;
   }
+  judgePower = _ => {
+    if(this.props.power === Instructions.powerOn){
+      return true;
+    }
+    Toast(I18n.t("openDeviceTip"));
+    return false;
+  }
   power = _ => {
     const that = this;
     BLE.checkBLEState().then(res => {
@@ -100,7 +107,7 @@ class Home extends Component {
     const that = this;
     BLE.checkBLEState().then(res => {
         if(res && res.status){
-            if(that.judgeDevice()){
+            if(that.judgeDevice() && that.judgePower()){
                 BLE.send(order, that.props.currentDevice.id).then(res => {
                   if(res.status == 4){
                     Toast(I18n.t("openDeviceTip"));
