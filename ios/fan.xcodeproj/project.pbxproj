@@ -1807,7 +1807,7 @@
 			baseConfigurationReference = DEB0915E44AED08A540D3066 /* Pods-fan.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = B44MM4C2V3;
 				HEADER_SEARCH_PATHS = (
@@ -1837,7 +1837,7 @@
 			baseConfigurationReference = AAFE4C2025EE0E32AF3534FC /* Pods-fan.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = B44MM4C2V3;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
