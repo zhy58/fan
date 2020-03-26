@@ -10,7 +10,7 @@ export default {
     "upDown": "up/down",
     "leftRight": "left/right",
     "threeD": "3D",
-    "cancle": "cancle",
+    "cancle": "stop",
     "sleep": "sleep",
     "natural": "natural",
     "normal": "normal",

@@ -138,7 +138,7 @@ public class AdvertiserModule extends ReactContextBaseJavaModule {
       if(!bluetoothAdapter.isEnabled()){
         map.putInt("status", 1);
       }
-      else if(!myAdapter.isMultipleAdvertisementSupported()){
+      else if(myAdvertiser == null){
         map.putInt("status", 2);
       }
       else{
@@ -280,7 +280,7 @@ public class AdvertiserModule extends ReactContextBaseJavaModule {
       myManager = (BluetoothManager) context.getSystemService(BLUETOOTH_SERVICE);
       myAdapter = myManager.getAdapter();
       myAdvertiser = myAdapter.getBluetoothLeAdvertiser();
-      if (!myAdapter.isMultipleAdvertisementSupported()) {
+      if (myAdvertiser == null) {
         return;
       }
       myAdvertiseSettings = new AdvertiseSettings.Builder()
@@ -309,7 +309,7 @@ public class AdvertiserModule extends ReactContextBaseJavaModule {
     myManager = (BluetoothManager) context.getSystemService(BLUETOOTH_SERVICE);
     myAdapter = myManager.getAdapter();
     myAdvertiser = myAdapter.getBluetoothLeAdvertiser();
-    if (!myAdapter.isMultipleAdvertisementSupported()) {
+    if (myAdvertiser == null) {
       return false;
     }
     return true;

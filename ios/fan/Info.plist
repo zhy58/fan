@@ -40,9 +40,9 @@
 	<key>NSAppleMusicUsageDescription</key>
 	<string>是否允许此App访问媒体库?</string>
 	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>是否允许此App访问蓝牙来连接外围设备?</string>
+	<string>是否允许此App在你控制设备时访问手机蓝牙功能，连接外围设备?</string>
 	<key>NSBluetoothPeripheralUsageDescription</key>
-	<string>是否允许此App访问蓝牙来连接外围设备?</string>
+	<string>是否允许此App在你控制设备时访问手机蓝牙功能，连接外围设备?</string>
 	<key>NSCameraUsageDescription</key>
 	<string>是否允许此App使用你的相机？</string>
 	<key>NSContactsUsageDescription</key>

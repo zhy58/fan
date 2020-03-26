@@ -108,8 +108,8 @@ android {
         applicationId "com.zhy.fan"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 111
-        versionName "1.1.1"
+        versionCode 112
+        versionName "1.1.2"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
