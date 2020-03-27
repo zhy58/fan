@@ -15,21 +15,22 @@ class More extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isVisibleTips: false,
+      isVisibleTips: true,
       isVisible: false,
       value: "",
       deviceID: "",
     }
   }
   componentDidMount() {
-    Storage.get(StorageKey.addDeviceTips).then(res => {
-        // console.log("res: ", res);
-        this.setState({
-            isVisibleTips: !res
-        });
-    }).catch(err => {
-        console.log("get StorageKey.addDeviceTips err: ", err);
-    });
+    //   
+    // Storage.get(StorageKey.addDeviceTips).then(res => {
+    //     // console.log("res: ", res);
+    //     this.setState({
+    //         isVisibleTips: !res
+    //     });
+    // }).catch(err => {
+    //     console.log("get StorageKey.addDeviceTips err: ", err);
+    // });
   }
   render() {
     return (
@@ -75,14 +76,14 @@ class More extends Component {
             <View style={styles.tipBox}>
                 <RNText style={styles.tipText}>{I18n.t("tipText")}</RNText>
             </View>
-            <View style={tool.flexBetween}>
-                <Touchable onPress={this.comfirmTips} style={styles.btn1}>
+            {/* <View style={tool.flexBetween}> */}
+                {/* <Touchable onPress={this.comfirmTips} style={styles.btn1}>
                     <Text style={styles.minText}>{I18n.t("noPrompt")}</Text>
-                </Touchable>
-                <Touchable onPress={this.comfirmTipsFirst} style={styles.btn1}>
+                </Touchable> */}
+                <Touchable onPress={this.comfirmTipsFirst} style={styles.btn}>
                     <Text style={styles.minText}>{I18n.t("iKnow")}</Text>
                 </Touchable>
-            </View>
+            {/* </View> */}
           </View>
         </Modal>
       </View>
@@ -190,12 +191,12 @@ class More extends Component {
         console.log("isBLEEnabled err: ", err);
     });
   }
-  comfirmTips = () => {
-    this.setState({
-        isVisibleTips: false
-    });
-    Storage.set(StorageKey.addDeviceTips, true);
-  }
+//   comfirmTips = () => {
+//     this.setState({
+//         isVisibleTips: false
+//     });
+//     Storage.set(StorageKey.addDeviceTips, true);
+//   }
   comfirmTipsFirst = () => {
     this.setState({
         isVisibleTips: false
