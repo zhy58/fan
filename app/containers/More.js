@@ -236,7 +236,8 @@ const styles = StyleSheet.create({
   },
   tipText: {
     color: "#666",
-    fontSize: 16
+    fontSize: 16,
+    height: 130
   },
   input: {
     marginVertical: 20,
