@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Platform, Text as RNText } from 'react-native'
+import { StyleSheet, View, Platform, Linking, Text as RNText } from 'react-native'
 import { connect } from 'react-redux'
 import I18n from 'i18n-js'
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -51,6 +51,8 @@ class More extends Component {
           data={this.props.devices}
           renderItem={({item, index}) => <ButtonList key={index} name={item.name} lonPress={_=>{this.editName(item)}} ronPress={_=>{this.del(item)}} /> } />
         
+        <Text onPress={this.linking} style={styles.linking}>《隐私协议》</Text>
+        
         <Modal isVisible={this.state.isVisible} 
           style={tool.flexCenter}
           onBackButtonPress={this.closeModal}>
@@ -88,6 +90,9 @@ class More extends Component {
         </Modal>
       </View>
     )
+  }
+  linking = () => {
+    Linking.openURL("http://zzz.wx1108.com/privacy.html");
   }
   goBack = () => {
     this.props.dispatch(NavigationActions.back());
@@ -268,6 +273,12 @@ const styles = StyleSheet.create({
     width: 40,
     justifyContent: "center"
   },
+  linking: {
+    color: "#333",
+    textDecorationLine: "underline",
+    textAlign: "center",
+    paddingVertical: 10,
+  }
 })
 
 export default More

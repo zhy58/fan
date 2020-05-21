@@ -48,7 +48,8 @@ export default {
         }
         setLanguage(_language);
       }
-      yield put(createAction("updateState")({ loading: false, isKoKR }));
+      // yield put(createAction("updateState")({ loading: false, isKoKR }));
+      yield put(createAction("updateState")({ isKoKR }));
     },
     *getDevices({ payload }, { call, put }) {
       const devices = yield call(BLE.getDevices);

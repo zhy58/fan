@@ -23,6 +23,7 @@ const StorageKey = {
     language: "LANGUAGE", //用户设定默认语言
     startUpHome: "STARTUPHOME", //首页浮层引导
     addDeviceTips: "ADDDEVICETIPS", //添加设备提示
+    reminder: "REMINDER",//温馨提示
 }
 
 module.exports = {

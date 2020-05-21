@@ -11,17 +11,17 @@ import {
 } from 'react-navigation-redux-helpers'
 import { connect } from 'react-redux'
 
-import Loading from './containers/Loading'
+import Reminder from './containers/Reminder'
 import Home from './containers/Home'
 import Language from './containers/Language'
 import More from './containers/More'
+
 
 const AppNavigator = createStackNavigator(
   {
     Home: { screen: Home },
     More: { screen: More },
     Language: { screen: Language },
-    Loading: { screen: Loading },
   },
   {
     headerMode: 'none',
@@ -75,9 +75,9 @@ function getActiveRouteName(navigationState) {
   }
   return route.routeName
 }
-
 @connect(({ app, router }) => ({ app, router }))
 class Router extends PureComponent {
+
   componentWillMount() {
     BackHandler.addEventListener('hardwareBackPress', this.backHandle)
   }
@@ -100,8 +100,8 @@ class Router extends PureComponent {
 
   render() {
     const { app, dispatch, router } = this.props
-    if (app.loading) return <Loading />
 
+    if (app.loading) return <Reminder />
     return <App dispatch={dispatch} state={router} />
   }
 }
