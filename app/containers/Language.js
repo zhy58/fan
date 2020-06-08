@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, Text, Linking } from 'react-native'
 import { connect } from 'react-redux'
 import I18n from 'i18n-js'
 
@@ -16,14 +16,17 @@ class Language extends Component {
 
   render() {
     return (
-      <View style={[styles.marginV20]}>
-        <View style={styles.container}>
+      <View style={styles.main}>
+        <View style={[styles.container, styles.marginV20]}>
           <SingleRow onPress={_=>{this.setLanguage("zh-CN")}} text={"中文简体"} />
           <SingleRow onPress={_=>{this.setLanguage("zh-TW")}} text={"中文繁體"} />
           <SingleRow onPress={_=>{this.setLanguage("en-US")}} text={"English"} />
           <SingleRow onPress={_=>{this.setLanguage("ja-JP")}} text={"日本語"} />
           <SingleRow onPress={_=>{this.setLanguage("ko-KR")}} text={"한국어"} />
         </View>
+        <Text onPress={this.goAgrrement} style={styles.linking}>
+          《{I18n.t("agreement")}{I18n.t("and")}{I18n.t("privacy")}》
+        </Text>
       </View>
     )
   }
@@ -43,9 +46,21 @@ class Language extends Component {
       actions: [NavigationActions.navigate({ routeName: 'Home' })] 
     }));
   }
+
+  linking = () => {
+    Linking.openURL("http://zzz.wx1108.com/privacy.html");
+  }
+
+  goAgrrement = () => {
+    this.props.dispatch(NavigationActions.navigate({ routeName: 'Agreement' }))
+  }
 }
 
 const styles = StyleSheet.create({
+  main: {
+    flex: 1, 
+    backgroundColor: "#FFFFFF"
+  },
   container: {
     flex: 1,
     marginVertical: 20,
@@ -57,6 +72,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     paddingVertical: 30,
   },
+  linking: {
+    color: "#333",
+    textAlign: "center",
+    paddingVertical: 10,
+    textDecorationLine: "underline",
+  }
 })
 
 export default Language

@@ -51,7 +51,7 @@ class More extends Component {
           data={this.props.devices}
           renderItem={({item, index}) => <ButtonList key={index} name={item.name} lonPress={_=>{this.editName(item)}} ronPress={_=>{this.del(item)}} /> } />
         
-        <Text onPress={this.linking} style={styles.linking}>《隐私协议》</Text>
+        {/* <Text onPress={this.linking} style={styles.linking}>《{I18n.t("privacy")}》</Text> */}
         
         <Modal isVisible={this.state.isVisible} 
           style={tool.flexCenter}

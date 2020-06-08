@@ -10,8 +10,10 @@ import BLE from '../native'
 export default {
   namespace: 'app',
   state: {
+    refresh: false, // 刷新
     isKoKR: false,
     loading: true,
+    isAccept: false,
     power: Instructions.powerOff,
     currentDevice: null,
     devices: []
@@ -48,8 +50,8 @@ export default {
         }
         setLanguage(_language);
       }
-      // yield put(createAction("updateState")({ loading: false, isKoKR }));
-      yield put(createAction("updateState")({ isKoKR }));
+      yield put(createAction("updateState")({ loading: false, isKoKR }));
+      // yield put(createAction("updateState")({ isKoKR }));
     },
     *getDevices({ payload }, { call, put }) {
       const devices = yield call(BLE.getDevices);

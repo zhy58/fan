@@ -39,5 +39,17 @@ export default {
     "iKnow": "我知道了",
     "noPrompt": "不再提示",
     "openBLETip": "请打开蓝牙",
-    "noSupportBLEAdv": "设备不支持蓝牙广播"
+    "noSupportBLEAdv": "设备不支持蓝牙广播",
+    "reminder": "温馨提示",
+    "reminderTips": "您的信任对我们至关重要，请您充分阅读",
+    "reminderSay": "特向您说明如下：",
+    "agreement": "用户协议",
+    "and": "与",
+    "privacy": "隐私政策",
+    "reminderTips1": "1、为向您提供相关功能，我们会使用必要信息；",
+    "reminderTips2": '2、为了缓存数据信息，我们需要您授权“存储权限”，您有权拒绝或取消授权；',
+    "reminderTips3": '3、为向您提供基本的蓝牙控制功能，我们需要您授权“蓝牙权限”，您有权拒绝或取消授权；',
+    "reminderTips4": "4、未经您同意，我们不会从第三方处获取、共享或向其提供您的信息；",
+    "agree": "同意",
+    "disagree": "不同意"
 };

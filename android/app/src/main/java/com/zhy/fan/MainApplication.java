@@ -1,11 +1,11 @@
-package com.zhy.myfans;
+package com.zhy.fan;
 
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.airbnb.android.react.lottie.LottiePackage;
 import com.fan.BuildConfig;
-import com.zhy.myfans.ble.AdvertiserPackage;
+import com.zhy.fan.ble.AdvertiserPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.reactcommunity.rnlocalize.RNLocalizePackage;
 import com.facebook.react.ReactNativeHost;

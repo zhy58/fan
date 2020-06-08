@@ -1,4 +1,4 @@
-package com.zhy.myfans.ble;
+package com.zhy.fan.ble;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;

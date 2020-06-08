@@ -11,17 +11,18 @@ import {
 } from 'react-navigation-redux-helpers'
 import { connect } from 'react-redux'
 
-import Reminder from './containers/Reminder'
 import Home from './containers/Home'
 import Language from './containers/Language'
 import More from './containers/More'
-
+import Agreement from './containers/Agreement'
+import Loading from './containers/Loading'
 
 const AppNavigator = createStackNavigator(
   {
     Home: { screen: Home },
     More: { screen: More },
     Language: { screen: Language },
+    Agreement: { screen: Agreement },
   },
   {
     headerMode: 'none',
@@ -101,7 +102,7 @@ class Router extends PureComponent {
   render() {
     const { app, dispatch, router } = this.props
 
-    if (app.loading) return <Reminder />
+    if (app.loading) return <Loading />
     return <App dispatch={dispatch} state={router} />
   }
 }

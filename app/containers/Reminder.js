@@ -1,92 +1,42 @@
-import React, { PureComponent } from 'react'
-import { View, StyleSheet, Text, Dimensions, ScrollView, Platform, BackHandler, Linking } from 'react-native'
-import { connect } from 'react-redux'
+import React from 'react'
+import { View, StyleSheet, Text, Dimensions, ScrollView } from 'react-native'
 import I18n from 'i18n-js'
 import Modal from 'react-native-modal'
 
 import { Touchable } from '../components'
-import { Storage, createAction } from '../utils'
-import { StorageKey } from '../utils/config'
-import Loading from './Loading'
 
 const { width } = Dimensions.get("window");
-
-@connect(({ app }) => ({ app }))
-class Reminder extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isVisible: false,
-    }
-  }
-
-  componentDidMount() {  
-    Storage.get(StorageKey.reminder).then(res => {
-        console.log("res: ", res);
-        let isVisible = !res ? true : false;
-        this.setState({
-          isVisible: isVisible
-        });
-        if(res){
-          // Storage.set(StorageKey.reminder, false);
-          this.props.dispatch(createAction("app/updateState")({ loading: false }));
-        }
-    }).catch(err => {
-        console.log("get StorageKey.reminder err: ", err);
-    });
-  }
-
-  closeModal = () => {
-    this.setState({
-      isVisible: false
-    })
-  }
-
-  linking = () => {
-    Linking.openURL("http://zzz.wx1108.com/privacy.html");
-  }
-  
-  cancle = () => {
-    if(Platform.OS == "android"){
-      this.closeModal()
-      BackHandler.exitApp()
-    }
-  }
-
-  comfirm = () => {
-    this.closeModal();
-    Storage.set(StorageKey.reminder, true);
-    this.props.dispatch(createAction("app/updateState")({ loading: false }));
-  }
-
-  render(){
-    if(!this.state.isVisible) return <Loading />
-    return (
-      <Modal isVisible={this.state.isVisible} 
-        style={styles.flexCenter}
-        avoidKeyboard={true}>
-        <View style={styles.main}>
-          <Text style={styles.text}>温馨提示</Text>
-          <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView}>
-            <Text style={styles.textList}>您的信任对我们至关重要，请您充分阅读<Text onPress={this.linking} style={styles.linking}>《隐私协议》</Text>。特向您说明如下：</Text>
-            <Text style={styles.textList}>1、为向您提供相关功能，我们会使用必要信息；</Text>
-            <Text style={styles.textList}>2、为了缓存数据信息，我们需要您授权“存储权限”，您有权拒绝或取消授权；</Text>
-            <Text style={styles.textList}>3、为向您提供基本的蓝牙控制功能，我们需要您授权“蓝牙权限”，您有权拒绝或取消授权；</Text>
-            <Text style={styles.textList}>4、未经您同意，我们不会从第三方处获取、共享或向其提供您的信息；</Text>
-          </ScrollView>
-          <View style={styles.btnBox}>
-            <Touchable onPress={this.cancle} style={styles.btn}>
-              <Text style={styles.minText}>不同意</Text>
-            </Touchable>
-            <Touchable onPress={this.comfirm} style={[styles.btn, styles.active]}>
-              <Text style={[styles.minText, {color: "#ffffff"}]}>同意</Text>
-            </Touchable>
-          </View>
-        </View>
-      </Modal>
-    )
-  }
-}
+export const Reminder = ({ isVisible, lonPress, go, ronPress }) => (
+  <Modal 
+    isVisible={isVisible}
+    style={styles.flexCenter}
+    avoidKeyboard={true}>
+    <View style={styles.main}>
+      <Text style={styles.text}>{I18n.t("reminder")}</Text>
+      <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView}>
+        <Text style={styles.textList}>{I18n.t("reminderTips")}
+          <Text onPress={go} style={styles.linking}>
+            《{I18n.t("agreement")}{I18n.t("and")}{I18n.t("privacy")}》
+          </Text>
+          ，
+          {I18n.t("reminderSay")}
+        </Text>
+        <Text style={styles.textList}>{I18n.t("reminderTips1")}</Text>
+        <Text style={styles.textList}>{I18n.t("reminderTips2")}</Text>
+        <Text style={styles.textList}>{I18n.t("reminderTips3")}</Text>
+        <Text style={styles.textList}>{I18n.t("reminderTips4")}</Text>
+      </ScrollView>
+      <View style={styles.btnBox}>
+        <Touchable onPress={lonPress} style={styles.btn}>
+          <Text style={styles.minText}>{I18n.t("disagree")}</Text>
+        </Touchable>
+        <Touchable onPress={ronPress} style={[styles.btn, styles.active]}>
+          <Text style={[styles.minText, {color: "#ffffff"}]}>{I18n.t("agree")}</Text>
+        </Touchable>
+      </View>
+    </View>
+  </Modal>
+)
 
 const styles = StyleSheet.create({
   flexCenter: {

@@ -39,5 +39,17 @@ export default {
     "iKnow": "我知道了",
     "noPrompt": "不再提示",
     "openBLETip": "請打開藍牙",
-    "noSupportBLEAdv": "設備不支持藍牙廣播"
+    "noSupportBLEAdv": "設備不支持藍牙廣播",
+    "reminder": "溫馨提示",
+    "reminderTips": "您的信任對我們至關重要，請您充分閱讀",
+    "reminderSay": "特向您說明如下：",
+    "agreement": "使用者協定",
+    "and": "與",
+    "privacy": "隱私政策",
+    "reminderTips1": "1、為向您提供相關功能，我們會使用必要資訊；",
+    "reminderTips2": '2、為了緩存數據資訊，我們需要您授權“存儲許可權”，您有權拒絕或取消授權；',
+    "reminderTips3": '3、為向您提供基本的藍牙控制功能，我們需要您授權“藍牙許可權”，您有權拒絕或取消授權；',
+    "reminderTips4": "4、未經您同意，我們不會從協力廠商處獲取、共亯或向其提供您的資訊；",
+    "agree": "同意",
+    "disagree": "不同意"
 };

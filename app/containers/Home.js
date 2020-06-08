@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, FlatList, Platform, Dimensions } from 'react-native'
+import { StyleSheet, View, FlatList, Platform, Dimensions, BackHandler } from 'react-native'
 import { connect } from 'react-redux'
 import I18n from 'i18n-js'
 import Modal from 'react-native-modal'
@@ -11,6 +11,7 @@ import BLE from '../native'
 import { Storage, NavigationActions, createAction, Toast } from '../utils'
 import { Instructions, StorageKey } from '../utils/config'
 import tool from './style/style'
+import Reminder from './Reminder'
 
 const WalkthroughableText = walkthroughable(View);
 const { width, height } = Dimensions.get("window");
@@ -28,12 +29,15 @@ class Home extends Component {
     this.state = {
       speed: 0,
       isVisible: false,
+      refresh: false,
+      isAcceptModal: true
     }
   }
   componentWillMount() {
     this.initBle();
   }
   componentDidMount() {
+    this.initAccept();
     Storage.get(StorageKey.startUpHome).then(res => {
         // console.log("res: ", res);
         if(!res){
@@ -50,8 +54,28 @@ class Home extends Component {
         }
     }
   }
+  componentWillReceiveProps(nextProps){
+    this.setState({
+      refresh: nextProps.refresh
+    });
+    if(nextProps.refresh){
+      this.props.dispatch(createAction("app/updateState")({ refresh: false }));
+      this.initAccept();
+    }
+  }
   componentWillUnmount() {
     this.props.copilotEvents.off('stop');
+  }
+  initAccept = () => {
+    Storage.get(StorageKey.reminder).then(res => {
+      // console.log("res: ", res);
+      this.setState({
+        isAcceptModal: true
+      });
+      this.props.dispatch(createAction("app/updateState")({ isAccept: res }));
+    }).catch(err => {
+        console.log("get StorageKey.reminder err: ", err);
+    });
   }
   handleStop = () => {
     Storage.set(StorageKey.startUpHome, true);
@@ -151,8 +175,29 @@ class Home extends Component {
     this.props.dispatch(createAction("app/getDevices")());
     this.props.dispatch(createAction("app/currentDevice")());
   }
-
+  noAccept = () => {
+    this.setState({
+      isAcceptModal: false
+    })
+  }
+  cancle = () => {
+    if(Platform.OS == "android"){
+      BackHandler.exitApp()
+    }
+  }
+  comfirm = () => {
+    this.closeModal()
+    Storage.set(StorageKey.reminder, true);
+    this.props.dispatch(createAction("app/updateState")({ isAccept: true }));
+  }
+  goAgrrement = () => {
+    this.noAccept()
+    this.props.dispatch(NavigationActions.navigate({ routeName: 'Agreement', params: true }))
+  }
   render() {
+
+    if (!this.props.isAccept) return <Reminder isVisible={this.state.isAcceptModal} lonPress={this.cancle} ronPress={this.comfirm} go={this.goAgrrement} />
+
     let dev = this.props.currentDevice || {};
     const selectDeviceName = dev.name ? dev.name : I18n.t("selectDevice");
     let powerColor = this.props.power === Instructions.powerOn ? this.powerOnColor : this.powerOffColor;
@@ -255,6 +300,8 @@ class Home extends Component {
                 )} />
             </View>
         </Modal>
+        
+        {/* <Reminder isVisible={this.state.isAccept} lonPress={this.noAccept} ronPress={this.comfirm} go={this.goAgrrement} /> */}
       </View>
     )
   }

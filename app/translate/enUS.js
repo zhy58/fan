@@ -39,5 +39,17 @@ export default {
     "iKnow": "I got it",
     "noPrompt": "No more prompts",
     "openBLETip": "Please turn on Bluetooth",
-    "noSupportBLEAdv": "Device does not support Bluetooth Advertiser"
+    "noSupportBLEAdv": "Device does not support Bluetooth Advertiser",
+    "reminder": "Reminder",
+    "reminderTips": "Your trust is very important to us. Please read it fully",
+    "reminderSay": "It is hereby explained to you as follows:",
+    "agreement": "User agreement",
+    "and": "and",
+    "privacy": "Privacy agreement",
+    "reminderTips1": "1. In order to provide you with relevant functions, we will use necessary information;",
+    "reminderTips2": '2. In order to cache data information, we need you to authorize "storage permission", and you have the right to refuse or cancel the authorization;',
+    "reminderTips3": '3. In order to provide you with basic Bluetooth control functions, we need you to authorize "Bluetooth permission", and you have the right to refuse or cancel the authorization;',
+    "reminderTips4": "4. Without your consent, we will not obtain, share or provide your information from a third party;",
+    "agree": "Agree",
+    "disagree": "Disagree"
 };
