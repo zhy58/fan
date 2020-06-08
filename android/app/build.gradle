@@ -103,8 +103,7 @@ def enableProguardInReleaseBuilds = false
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
-//  谷歌是myfans
-//  国内是fan
+
     defaultConfig {
         applicationId "com.zhy.fan"
         minSdkVersion rootProject.ext.minSdkVersion

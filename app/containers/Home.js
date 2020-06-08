@@ -34,7 +34,7 @@ class Home extends Component {
     }
   }
   componentWillMount() {
-    this.initBle();
+    // this.initBle();
   }
   componentDidMount() {
     this.initAccept();
