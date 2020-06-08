@@ -1,4 +1,4 @@
-package com.zhy.fan.ble;
+package com.zhy.myfans.ble;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.NativeModule;

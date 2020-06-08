@@ -1,4 +1,4 @@
-package com.zhy.fan.ble;
+package com.zhy.myfans.ble;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.bridge.Arguments;
@@ -31,7 +30,6 @@ import com.facebook.react.uimanager.IllegalViewOperationException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 

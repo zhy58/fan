@@ -1,4 +1,4 @@
-package com.zhy.fan.ble;
+package com.zhy.myfans.ble;
 
 import android.app.Activity;
 
